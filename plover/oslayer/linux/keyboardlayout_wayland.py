@@ -380,6 +380,7 @@ HANDLED_EV_KEYCODE_TO_KEY = {
     e.KEY_SLASH: "/",
     e.KEY_SPACE: "space",
     e.KEY_BACKSPACE: "BackSpace",
+    e.KEY_CAPSLOCK: "caps_lock",
     e.KEY_DELETE: "Delete",
     e.KEY_DOWN: "Down",
     e.KEY_END: "End",

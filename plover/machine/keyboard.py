@@ -51,6 +51,7 @@ class Keyboard(StenotypeBase):
         super().__init__()
         self._arpeggiate = params["arpeggiate"]
         self._first_up_chord_send = params["first_up_chord_send"]
+        self._always_suppressed_keys = {"caps_lock"}
         if self._arpeggiate and self._first_up_chord_send:
             self._error()
             raise RuntimeError(
@@ -74,7 +75,9 @@ class Keyboard(StenotypeBase):
     def _update_suppression(self):
         if self._keyboard_capture is None:
             return
-        suppressed_keys = self._bindings.keys() if self._is_suppressed else ()
+        suppressed_keys = set(self._always_suppressed_keys)
+        if self._is_suppressed:
+            suppressed_keys.update(self._bindings.keys())
         self._keyboard_capture.suppress(suppressed_keys)
 
     def _update_bindings(self):
@@ -136,6 +139,9 @@ class Keyboard(StenotypeBase):
     def _key_down(self, key):
         """Called when a key is pressed."""
         assert key is not None
+        if key == "caps_lock":
+            self._notify_command("toggle")
+            return
         self._stroke_key_down_count += 1
         self._down_keys.add(key)
         if self._first_up_chord_send:
@@ -146,6 +152,8 @@ class Keyboard(StenotypeBase):
     def _key_up(self, key):
         """Called when a key is released."""
         assert key is not None
+        if key == "caps_lock":
+            return
 
         self._down_keys.discard(key)
 

@@ -6,6 +6,21 @@ from plover.oslayer.config import PLUGINS_PLATFORM
 from plover import log
 
 
+_FALLBACK_PLUGINS = {
+    "gui": {
+        "none": "plover.gui_none.main",
+        "qt": "plover.gui_qt.main",
+    },
+    "gui.qt.tool": {
+        "add_translation": "plover.gui_qt.add_translation_dialog:AddTranslationDialog",
+        "lookup": "plover.gui_qt.lookup_dialog:LookupDialog",
+        "paper_tape": "plover.gui_qt.paper_tape:PaperTape",
+        "plugins_manager": "plover.gui_qt.plugins_manager:PluginsManager",
+        "suggestions": "plover.gui_qt.suggestions_dialog:SuggestionsDialog",
+    },
+}
+
+
 class Plugin:
     def __init__(self, plugin_type, name, obj):
         self.plugin_type = plugin_type
@@ -70,6 +85,18 @@ class Registry:
                 self._distributions[dist_id] = dist
             dist.plugins.add(plugin)
 
+    def _register_fallback_plugins(self, plugin_type):
+        fallback_plugins = _FALLBACK_PLUGINS.get(plugin_type)
+        if fallback_plugins is None:
+            return
+        for name, module_path in fallback_plugins.items():
+            if name in self._plugins[plugin_type]:
+                continue
+            module_name, _, attr_name = module_path.partition(":")
+            module = __import__(module_name, fromlist=[attr_name or "main"])
+            obj = getattr(module, attr_name or "main")
+            self.register_plugin(plugin_type, name, obj)
+
     def get_plugin(self, plugin_type, plugin_name):
         return self._plugins[plugin_type][plugin_name.lower()]
 
@@ -95,6 +122,7 @@ class Registry:
                 if "gui_qt" in entrypoint.extras and not has_gui_qt:
                     continue
                 self.register_plugin_from_entrypoint(plugin_type, entrypoint)
+            self._register_fallback_plugins(plugin_type)
             if PLUGINS_PLATFORM is None:
                 continue
             entrypoint_type = f"plover.{PLUGINS_PLATFORM}.{plugin_type}"

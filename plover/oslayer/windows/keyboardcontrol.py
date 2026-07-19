@@ -107,6 +107,7 @@ SCANCODE_TO_KEY = {
     77: "Right",
     15: "Tab",
     72: "Up",
+    58: "caps_lock",
 }
 
 KEY_TO_SCANCODE = dict(zip(SCANCODE_TO_KEY.values(), SCANCODE_TO_KEY.keys()))
@@ -121,6 +122,11 @@ PASSTHROUGH_KEYS = {
     0x5B,  # Win
     0x5C,  # Win
 }
+
+# Windows identifies Caps Lock by virtual-key code.  Some keyboard drivers
+# report it with an extended flag or a zero scan code while the desktop has
+# focus, so it cannot reliably be recognized from the scan code alone.
+VK_CAPITAL = 0x14
 
 
 """
@@ -417,7 +423,11 @@ class KeyboardCaptureProcess(multiprocessing.Process):
             # even when the LLKHF_EXTENDED flag is set. Previously we
             # returned early for all extended keys which prevented Win
             # (VK 0x5B/0x5C) from being reported as modifiers.
-            if event.flags & LLKHF_EXTENDED and event.vkCode not in PASSTHROUGH_KEYS:
+            if (
+                event.flags & LLKHF_EXTENDED
+                and event.vkCode not in PASSTHROUGH_KEYS
+                and event.vkCode != VK_CAPITAL
+            ):
                 return False
 
             if event.flags & LLKHF_INJECTED:
@@ -444,7 +454,11 @@ class KeyboardCaptureProcess(multiprocessing.Process):
                     pass
                 # Don't capture modifier keys as regular key events.
                 return False
-            key = SCANCODE_TO_KEY.get(event.scanCode)
+            key = (
+                "caps_lock"
+                if event.vkCode == VK_CAPITAL
+                else SCANCODE_TO_KEY.get(event.scanCode)
+            )
             if key is None:
                 # Unhandled, ignore and don't suppress.
                 return False
@@ -459,9 +473,10 @@ class KeyboardCaptureProcess(multiprocessing.Process):
                     passthrough_down_keys,
                 )
                 return False
+            suppression_scancode = KEY_TO_SCANCODE[key]
             suppressed = bool(
-                self._suppressed_keys_bitmask[event.scanCode // 64]
-                & (1 << (event.scanCode % 64))
+                self._suppressed_keys_bitmask[suppression_scancode // 64]
+                & (1 << (suppression_scancode % 64))
             )
             log.info(
                 "Queueing key: vk=%s scan=%s key=%s pressed=%s suppressed=%s",

@@ -140,6 +140,7 @@ KEYCODE_TO_KEY = {
     23: "Tab",
     111: "Up",
     65: "space",
+    66: "caps_lock",
 }
 
 KEY_TO_KEYCODE = dict(zip(KEYCODE_TO_KEY.values(), KEYCODE_TO_KEY.keys()))

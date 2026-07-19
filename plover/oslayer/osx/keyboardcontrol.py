@@ -242,6 +242,7 @@ KEYCODE_TO_KEY = {
     47: ".",
     44: "/",
     49: "space",
+    57: "caps_lock",
     BACK_SPACE: "BackSpace",
     117: "Delete",
     125: "Down",

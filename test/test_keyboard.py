@@ -59,15 +59,14 @@ def test_lifecycle(capture, machine, strokes):
     machine.start_capture()
     assert capture.mock_calls == [
         mock.call.start(),
-        mock.call.suppress(()),
+        mock.call.suppress({"caps_lock"}),
     ]
     capture.reset_mock()
     machine.set_suppression(True)
-    suppressed_keys = dict(machine.keymap.get_bindings())
-    del suppressed_keys["space"]
+    suppressed_keys = {"caps_lock", *machine._bindings}
     assert strokes == []
     assert capture.mock_calls == [
-        mock.call.suppress(suppressed_keys.keys()),
+        mock.call.suppress(suppressed_keys),
     ]
     # Trigger some strokes.
     capture.reset_mock()
@@ -82,9 +81,20 @@ def test_lifecycle(capture, machine, strokes):
     machine.stop_capture()
     assert strokes == []
     assert capture.mock_calls == [
-        mock.call.suppress(()),
+        mock.call.suppress({"caps_lock"}),
         mock.call.cancel(),
     ]
+
+
+def test_caps_lock_toggles_output_without_becoming_a_stroke(capture, machine, strokes):
+    commands = []
+    machine.add_command_callback(commands.append)
+    machine.start_capture()
+
+    send_input(capture, "caps_lock")
+
+    assert commands == ["toggle"]
+    assert strokes == []
 
 
 def test_unfinished_stroke_1(capture, machine, strokes):

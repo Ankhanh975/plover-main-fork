@@ -10,7 +10,7 @@ if not exist "%PYTHON%" (
 )
 
 pushd "%ROOT%"
-"%PYTHON%" -m plover.scripts.main %*
+"%PYTHON%" -m plover.scripts.dist_main %*
 set "EXITCODE=%ERRORLEVEL%"
 popd
 exit /b %EXITCODE%

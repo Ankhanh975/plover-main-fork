@@ -132,7 +132,7 @@ class Launch(Command):
             python_path = os.environ.get("PYTHONPATH", "").split(os.pathsep)
             python_path.insert(0, sys.path[0])
             os.environ["PYTHONPATH"] = os.pathsep.join(python_path)
-            cmd = [sys.executable, "-m", "plover.scripts.main"] + self.args
+            cmd = [sys.executable, "-m", "plover.scripts.dist_main"] + self.args
             if sys.platform.startswith("win32"):
                 # Workaround https://bugs.python.org/issue19066
                 subprocess.Popen(cmd, cwd=os.getcwd())

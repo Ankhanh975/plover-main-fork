@@ -329,6 +329,15 @@ class StenoEngine:
             except Exception:
                 # Some machine implementations may not provide modifier callbacks.
                 pass
+            try:
+                self._machine.add_command_callback(
+                    lambda command: self._same_thread_hook(
+                        self._execute_engine_command, command, True
+                    )
+                )
+            except Exception:
+                # Some machine implementations may not provide command callbacks.
+                pass
             self._machine.add_state_callback(self._machine_state_callback)
             self._machine.add_stroke_callback(self._machine_stroke_callback)
             self._machine_params = machine_params

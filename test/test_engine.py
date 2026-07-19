@@ -175,6 +175,18 @@ def test_engine_lifecycle(engine):
     engine._controller.stop.assert_called_once()
 
 
+def test_machine_toggle_command_works_while_output_is_disabled(engine):
+    engine.load_config()
+    engine.start()
+    machine = FakeMachine.instance
+
+    assert not engine.output
+    machine._notify_command("toggle")
+    assert engine.output
+    machine._notify_command("toggle")
+    assert not engine.output
+
+
 def test_loading_dictionaries(tmp_path, engine):
     def check_loaded_events(actual_events, expected_events):
         filtered_events = [

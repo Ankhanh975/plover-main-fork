@@ -46,6 +46,8 @@ class StenotypeBase:
         self.state_subscribers = []
         # Subscribers notified when modifier keys change. Callback signature: fn(set_of_modifier_names)
         self.modifier_subscribers = []
+        # Subscribers notified when the machine emits a command string.
+        self.command_subscribers = []
         self.state = STATE_STOPPED
 
     def set_keymap(self, keymap):
@@ -94,6 +96,16 @@ class StenotypeBase:
     def remove_modifier_callback(self, callback):
         self.modifier_subscribers.remove(callback)
 
+    def add_command_callback(self, callback):
+        """Subscribe to machine command events.
+
+        The callback will be called with a command string such as "toggle".
+        """
+        self.command_subscribers.append(callback)
+
+    def remove_command_callback(self, callback):
+        self.command_subscribers.remove(callback)
+
     def _notify_modifier(self, modifiers):
         for callback in list(self.modifier_subscribers):
             try:
@@ -103,6 +115,15 @@ class StenotypeBase:
                 import logging
 
                 logging.exception("modifier callback failed")
+
+    def _notify_command(self, command):
+        for callback in list(self.command_subscribers):
+            try:
+                callback(command)
+            except Exception:
+                import logging
+
+                logging.exception("command callback failed")
 
     def remove_state_callback(self, callback):
         self.state_subscribers.remove(callback)
