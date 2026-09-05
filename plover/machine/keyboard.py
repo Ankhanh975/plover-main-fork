@@ -85,7 +85,7 @@ class Keyboard(StenotypeBase):
         self._bindings = dict(self.keymap.get_bindings())
         for key, mapping in list(self._bindings.items()):
             if "no-op" == mapping:
-                self._bindings[key] = None
+                del self._bindings[key]
             elif "arpeggiate" == mapping:
                 if self._arpeggiate:
                     self._bindings[key] = None
@@ -142,6 +142,8 @@ class Keyboard(StenotypeBase):
         if key == "caps_lock":
             self._notify_command("toggle")
             return
+        if key not in self._bindings:
+            return
         self._stroke_key_down_count += 1
         self._down_keys.add(key)
         if self._first_up_chord_send:
@@ -153,6 +155,8 @@ class Keyboard(StenotypeBase):
         """Called when a key is released."""
         assert key is not None
         if key == "caps_lock":
+            return
+        if key not in self._bindings:
             return
 
         self._down_keys.discard(key)

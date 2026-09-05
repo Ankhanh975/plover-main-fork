@@ -97,6 +97,19 @@ def test_caps_lock_toggles_output_without_becoming_a_stroke(capture, machine, st
     assert strokes == []
 
 
+def test_no_op_keys_are_not_suppressed_or_translated(capture, machine, strokes):
+    machine.start_capture()
+    machine.set_suppression(True)
+
+    suppressed_keys = capture.suppress.call_args.args[0]
+    assert "," not in suppressed_keys
+    assert "." not in suppressed_keys
+
+    send_input(capture, ", .")
+
+    assert strokes == []
+
+
 def test_unfinished_stroke_1(capture, machine, strokes):
     machine.start_capture()
     send_input(capture, "+a +q -a")
