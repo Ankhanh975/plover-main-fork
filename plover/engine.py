@@ -167,6 +167,7 @@ class StenoEngine:
         self._machine = None
         self._machine_state = None
         self._machine_params = MachineParams(None, None, None)
+        self._reset_translator_state_on_next_stroke = False
         self._formatter = Formatter()
         # Modifier-suspend state
         self._modifier_disabled = False
@@ -426,6 +427,7 @@ class StenoEngine:
         self._is_running = enabled
         if enabled:
             self._translator.set_state(self._running_state)
+            self._reset_translator_state_on_next_stroke = True
         else:
             self._translator.clear_state()
         if self._machine is not None:
@@ -521,6 +523,10 @@ class StenoEngine:
     def _on_stroked(self, steno_keys):
         stroke = Stroke(steno_keys)
         log.stroke(stroke)
+        if self._reset_translator_state_on_next_stroke:
+            self._translator.clear_state()
+            self._running_state = self._translator.get_state()
+            self._reset_translator_state_on_next_stroke = False
         self._translator.translate(stroke)
         self._trigger_hook("stroked", stroke)
 
