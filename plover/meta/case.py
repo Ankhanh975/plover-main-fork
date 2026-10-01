@@ -4,6 +4,8 @@ from plover.formatting import Case, apply_case
 def meta_case(ctx, case):
     case = Case(case.lower())
     action = ctx.copy_last_action()
+    if not ctx.previous_translations and not ctx.translated_actions:
+        action.next_attach = True
     action.next_case = case
     return action
 
