@@ -210,6 +210,16 @@ def test_changing_state():
     ]
 
 
+def test_record_external_edit():
+    translator = Translator()
+    translator.record_external_edit()
+
+    state = translator.get_state()
+    assert len(state.translations) == 1
+    assert state.translations[0].is_external_edit
+    assert not state.translations[0].has_undo()
+
+
 def test_translator():
     # It's not clear that this test is needed anymore. There are separate
     # tests for _translate_stroke and test_translate_calls_translate_stroke

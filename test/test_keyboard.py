@@ -110,6 +110,17 @@ def test_no_op_keys_are_not_suppressed_or_translated(capture, machine, strokes):
     assert strokes == []
 
 
+def test_unbound_edit_keys_are_reported(capture, machine):
+    edits = []
+    machine.add_key_callback(edits.append)
+    machine.start_capture()
+    machine.set_suppression(True)
+
+    send_input(capture, "BackSpace Delete")
+
+    assert edits == ["BackSpace", "Delete"]
+
+
 def test_unfinished_stroke_1(capture, machine, strokes):
     machine.start_capture()
     send_input(capture, "+a +q -a")

@@ -1185,23 +1185,53 @@ META_CARRY_CAPITALIZE_TESTS = (
     lambda: (
         "~|*",
         last_action_normal,
-        (action(word="*", text="*", trailing_space=" ")),
+        (
+            action(
+                next_case=Case.CAP_FIRST_WORD,
+                word="*",
+                text="*",
+                trailing_space=" ",
+            ),
+        ),
     ),
     # With attach flags:
     lambda: (
         "~|*^",
         last_action_normal,
-        (action(word="*", text="*", next_attach=True)),
+        (
+            action(
+                next_case=Case.CAP_FIRST_WORD,
+                word="*",
+                text="*",
+                next_attach=True,
+            ),
+        ),
     ),
     lambda: (
         "^~|*",
         last_action_normal,
-        (action(word="*", text="*", trailing_space=" ", prev_attach=True)),
+        (
+            action(
+                next_case=Case.CAP_FIRST_WORD,
+                word="*",
+                text="*",
+                trailing_space=" ",
+                prev_attach=True,
+            ),
+        ),
     ),
     lambda: (
         "^~|*^",
         last_action_normal,
-        (action(word="*", text="*", prev_attach=True, next_attach=True)),
+        (
+            action(
+                next_case=Case.CAP_FIRST_WORD,
+                word="*",
+                text="*",
+                prev_attach=True,
+                next_attach=True,
+            ),
+        ),
     ),
     # Should 'do nothing'.
     lambda: ("~|", last_action_capitalized, (last_action_capitalized)),

@@ -125,6 +125,7 @@ class Translation:
         self.replaced = []
         self.formatting = []
         self.is_retrospective_command = False
+        self.is_external_edit = False
 
     def __eq__(self, other):
         return self.rtfcre == other.rtfcre and self.english == other.english
@@ -149,6 +150,8 @@ class Translation:
         return 0
 
     def has_undo(self):
+        if self.is_external_edit:
+            return False
         # If there is no formatting then we're not dealing with a formatter
         # so all translations can be undone.
         # TODO: combos are not undoable but in some contexts they appear
@@ -284,6 +287,15 @@ class Translator:
     def clear_state(self):
         """Reset the state of the translator."""
         self._state = _State()
+
+    def record_external_edit(self):
+        """Record an edit made outside of the translator's output."""
+        t = Translation([], None)
+        t.is_external_edit = True
+        if self._state.translations and self._state.translations[-1].formatting:
+            t.formatting = [self._state.translations[-1].formatting[-1].copy_state()]
+        self._state.translations.append(t)
+        self._resize_translations()
 
     def translate_stroke(self, stroke):
         """Process a stroke.

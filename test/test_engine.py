@@ -305,5 +305,15 @@ def test_engine_running_state(engine):
     assert engine.translator_state == running_state
 
 
+def test_external_edit_reduces_engine_backspaces(engine):
+    engine._is_running = True
+    engine._keyboard_emulation.send_backspaces = mock.Mock()
+
+    engine._on_external_key("BackSpace")
+    engine._send_backspaces(5)
+
+    engine._keyboard_emulation.send_backspaces.assert_called_once_with(4)
+
+
 def test_undo_and_clear_empty_translator_state(engine):
     engine.clear_translator_state(undo=True)

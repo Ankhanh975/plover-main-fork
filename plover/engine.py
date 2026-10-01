@@ -168,6 +168,7 @@ class StenoEngine:
         self._machine_state = None
         self._machine_params = MachineParams(None, None, None)
         self._reset_translator_state_on_next_stroke = False
+        self._external_deleted_characters = 0
         self._formatter = Formatter()
         # Modifier-suspend state
         self._modifier_disabled = False
@@ -339,6 +340,13 @@ class StenoEngine:
             except Exception:
                 # Some machine implementations may not provide command callbacks.
                 pass
+            try:
+                self._machine.add_key_callback(
+                    lambda key: self._same_thread_hook(self._on_external_key, key)
+                )
+            except Exception:
+                # Some machine implementations may not provide key callbacks.
+                pass
             self._machine.add_state_callback(self._machine_state_callback)
             self._machine.add_stroke_callback(self._machine_stroke_callback)
             self._machine_params = machine_params
@@ -430,6 +438,7 @@ class StenoEngine:
             self._reset_translator_state_on_next_stroke = True
         else:
             self._translator.clear_state()
+            self._external_deleted_characters = 0
         if self._machine is not None:
             self._machine.set_suppression(enabled)
         self._trigger_hook("output_changed", enabled)
@@ -444,6 +453,11 @@ class StenoEngine:
 
     def _machine_stroke_callback(self, steno_keys):
         self._same_thread_hook(self._on_stroked, steno_keys)
+
+    def _on_external_key(self, key):
+        if self._is_running and key in ("BackSpace", "Delete"):
+            self._external_deleted_characters += 1
+            self._translator.record_external_edit()
 
     @with_lock
     def _on_machine_state_changed(self, machine_state):
@@ -537,6 +551,12 @@ class StenoEngine:
 
     def _send_backspaces(self, b):
         if not self._is_running:
+            return
+        if self._external_deleted_characters:
+            adjusted = min(b, self._external_deleted_characters)
+            b -= adjusted
+            self._external_deleted_characters -= adjusted
+        if not b:
             return
         self._keyboard_emulation.send_backspaces(b)
         self._trigger_hook("send_backspaces", b)

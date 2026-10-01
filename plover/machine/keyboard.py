@@ -143,6 +143,8 @@ class Keyboard(StenotypeBase):
             self._notify_command("toggle")
             return
         if key not in self._bindings:
+            if key in ("BackSpace", "Delete"):
+                self._notify_key(key)
             return
         self._stroke_key_down_count += 1
         self._down_keys.add(key)

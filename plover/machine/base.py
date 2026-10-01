@@ -48,6 +48,8 @@ class StenotypeBase:
         self.modifier_subscribers = []
         # Subscribers notified when the machine emits a command string.
         self.command_subscribers = []
+        # Subscribers notified when an unbound physical key is pressed.
+        self.key_subscribers = []
         self.state = STATE_STOPPED
 
     def set_keymap(self, keymap):
@@ -106,6 +108,13 @@ class StenotypeBase:
     def remove_command_callback(self, callback):
         self.command_subscribers.remove(callback)
 
+    def add_key_callback(self, callback):
+        """Subscribe to physical key events that are not steno strokes."""
+        self.key_subscribers.append(callback)
+
+    def remove_key_callback(self, callback):
+        self.key_subscribers.remove(callback)
+
     def _notify_modifier(self, modifiers):
         for callback in list(self.modifier_subscribers):
             try:
@@ -124,6 +133,15 @@ class StenotypeBase:
                 import logging
 
                 logging.exception("command callback failed")
+
+    def _notify_key(self, key):
+        for callback in list(self.key_subscribers):
+            try:
+                callback(key)
+            except Exception:
+                import logging
+
+                logging.exception("key callback failed")
 
     def remove_state_callback(self, callback):
         self.state_subscribers.remove(callback)
