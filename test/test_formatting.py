@@ -916,12 +916,7 @@ ATOM_TO_ACTION_TESTS = (
     lambda: (
         "{;}",
         action(text_and_word="test", trailing_space=" "),
-        action(
-            prev_attach=True,
-            text_and_word=";",
-            trailing_space=" ",
-            next_case=Case.CAP_FIRST_WORD,
-        ),
+        action(prev_attach=True, text_and_word=";", trailing_space=" "),
     ),
     lambda: (
         "{.}",
