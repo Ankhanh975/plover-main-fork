@@ -906,12 +906,22 @@ ATOM_TO_ACTION_TESTS = (
     lambda: (
         "{:}",
         action(text_and_word="test", trailing_space=" "),
-        action(prev_attach=True, text_and_word=":", trailing_space=" "),
+        action(
+            prev_attach=True,
+            text_and_word=":",
+            trailing_space=" ",
+            next_case=Case.CAP_FIRST_WORD,
+        ),
     ),
     lambda: (
         "{;}",
         action(text_and_word="test", trailing_space=" "),
-        action(prev_attach=True, text_and_word=";", trailing_space=" "),
+        action(
+            prev_attach=True,
+            text_and_word=";",
+            trailing_space=" ",
+            next_case=Case.CAP_FIRST_WORD,
+        ),
     ),
     lambda: (
         "{.}",
@@ -1238,6 +1248,11 @@ META_CARRY_CAPITALIZE_TESTS = (
     # Should lose 'next_attach' flag.
     lambda: ("~|", last_action_attached, (action(prev_attach=True))),
     # Verify capitalize carry.
+    lambda: (
+        "^~|^",
+        last_action_normal,
+        (action(text_and_word="", prev_attach=True, next_attach=True),),
+    ),
     lambda: (
         "^~|^",
         last_action_capitalized,

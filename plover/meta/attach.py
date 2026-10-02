@@ -64,8 +64,12 @@ def meta_carry_capitalize(ctx, meta):
         meta = meta[: -len(META_ATTACH_FLAG)]
         action.next_attach = True
         action.word_is_finished = False
-    if meta or begin or end:
+    if meta:
         action.next_case = Case.CAP_FIRST_WORD
+        action.text = meta
+    elif begin or end:
+        if ctx.last_action.next_case == Case.CAP_FIRST_WORD:
+            action.next_case = Case.CAP_FIRST_WORD
         action.text = meta
     elif ctx.last_action.next_case == Case.CAP_FIRST_WORD:
         action.next_case = Case.CAP_FIRST_WORD

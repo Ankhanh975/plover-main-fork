@@ -5,6 +5,8 @@ def meta_comma(ctx, text):
     action = ctx.new_action()
     action.text = text
     action.prev_attach = True
+    if text in (":", ";"):
+        action.next_case = Case.CAP_FIRST_WORD
     return action
 
 
