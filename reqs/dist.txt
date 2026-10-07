@@ -14,7 +14,9 @@ evdev; "linux" in sys_platform or "bsd" in sys_platform
 packaging
 psutil; "linux" in sys_platform or "bsd" in sys_platform
 xkbcommon<1.1; "linux" in sys_platform or "bsd" in sys_platform
-readme-renderer[md]
+# readme-renderer 45+ uses comrak, which requires a native Rust/MSVC build on
+# Windows and is not currently available as a compatible wheel.
+readme-renderer[md]<45
 requests-cache
 requests-futures
 rtf_tokenize
