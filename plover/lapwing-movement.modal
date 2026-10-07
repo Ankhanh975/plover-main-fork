@@ -5,8 +5,9 @@
     "ignore_folding": true,
 
     "entry": {
-        "STPH": "{^}",
-        "#TPH": "{^}"
+        "STPH": "{&}{^}",
+        "#TPH": "{&}{^}",
+        "*": "=undo"
     },
 
     "dict": {
