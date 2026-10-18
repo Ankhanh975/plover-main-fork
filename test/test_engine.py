@@ -187,31 +187,6 @@ def test_machine_toggle_command_works_while_output_is_disabled(engine):
     assert not engine.output
 
 
-def test_resume_command_inserts_space_when_output_was_disabled(engine):
-    engine.load_config()
-    engine.start()
-    machine = FakeMachine.instance
-    engine.set_output(False)
-    machine.suppress_last_stroke = mock.Mock()
-    engine._keyboard_emulation.send_string = mock.Mock()
-
-    engine._send_engine_command("resume")
-
-    machine.suppress_last_stroke.assert_called_once()
-    engine._keyboard_emulation.send_string.assert_called_once_with(" ")
-
-
-def test_resume_command_does_not_insert_space_when_output_was_enabled(engine):
-    engine.load_config()
-    engine.start()
-    engine.set_output(True)
-    engine._keyboard_emulation.send_string = mock.Mock()
-
-    engine._send_engine_command("resume")
-
-    engine._keyboard_emulation.send_string.assert_not_called()
-
-
 def test_loading_dictionaries(tmp_path, engine):
     def check_loaded_events(actual_events, expected_events):
         filtered_events = [

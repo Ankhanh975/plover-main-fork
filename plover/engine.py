@@ -582,13 +582,10 @@ class StenoEngine:
         (the same as stroking ``{PLOVER:LOOKUP}``), and ``run_shell:foo`` sends the
         ``run_shell`` command with the argument ``foo``.
         """
-        was_running = self._is_running
-        suppress = not was_running
+        suppress = not self._is_running
         suppress &= self._consume_engine_command(command)
         if suppress:
             self._machine.suppress_last_stroke(self._keyboard_emulation.send_backspaces)
-        if command.lower() == "resume" and not was_running:
-            self._send_string(" ")
 
     def toggle_output(self):
         """Toggles steno mode.
