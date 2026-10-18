@@ -583,11 +583,18 @@ class StenoEngine:
         ``run_shell`` command with the argument ``foo``.
         """
         was_running = self._is_running
+        is_resume = command.split(":", 1)[0].lower() == "resume"
+        translator_state = (
+            self._translator.get_state() if is_resume and not was_running else None
+        )
         suppress = not was_running
         suppress &= self._consume_engine_command(command)
+        if translator_state is not None:
+            self._translator.set_state(translator_state)
+            self._reset_translator_state_on_next_stroke = False
         if suppress:
             self._machine.suppress_last_stroke(self._keyboard_emulation.send_backspaces)
-        if command.lower() == "resume" and not was_running:
+        if is_resume and not was_running:
             self._send_string(" ")
 
     def toggle_output(self):

@@ -18,7 +18,8 @@ from plover.misc import normalize_path
 from plover.oslayer.controller import Controller
 from plover.output import Output
 from plover.registry import Registry
-from plover.steno_dictionary import StenoDictionaryCollection
+from plover.steno import Stroke
+from plover.steno_dictionary import StenoDictionary, StenoDictionaryCollection
 
 from plover_build_utils.testing import make_dict
 
@@ -210,6 +211,25 @@ def test_resume_command_does_not_insert_space_when_output_was_enabled(engine):
     engine._send_engine_command("resume")
 
     engine._keyboard_emulation.send_string.assert_not_called()
+
+
+def test_resume_with_period_preserves_next_word_capitalization(engine):
+    engine.load_config()
+    engine.start()
+    dictionary = StenoDictionary()
+    dictionary[("TP-PL",)] = "{PLOVER:RESUME}{.}"
+    dictionary[("TEFT",)] = "hello"
+    engine._dictionaries.set_dicts([dictionary])
+    engine._keyboard_emulation.send_string = mock.Mock()
+    FakeMachine.instance.suppress_last_stroke = mock.Mock()
+
+    engine._translator.translate(Stroke.from_steno("TP-PL"))
+    engine._translator.translate(Stroke.from_steno("TEFT"))
+
+    assert any(
+        "Hello" in call.args[0]
+        for call in engine._keyboard_emulation.send_string.call_args_list
+    )
 
 
 def test_loading_dictionaries(tmp_path, engine):
