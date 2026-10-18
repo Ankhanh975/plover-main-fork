@@ -1,4 +1,5 @@
 {
+"#TPH-B": "{^}{#Down}{^}",
 "#TP-PLT": "{;}",
 "STPH-B": "{^}{#Down}{^}",
 "STP-PLT": "{;}",
@@ -175,6 +176,7 @@
 "KRAOES/-G": "increasing",
 "KRAOES/-D": "increased",
 "KRAOES/-Z": "increases",
+"KR*EPBT": "current",
 "KAFT/-L": "castle",
 "KAP/*UR": "capture",
 "KOE/SRER/-D": "covered",
@@ -192,6 +194,7 @@
 "KOLD": "cold",
 "KE/RE/PWHR": "ceremony",
 "KERPB": "Kern",
+"KEPB/TEU": "{centi^}",
 "KULT/*UR": "culture",
 "PWHR": "many",
 "PWHR/SEU": "many ci",
@@ -406,7 +409,7 @@
 "-FPLT": "{;}",
 "-RPBT": "aren't",
 "-RB": "\nQ:\t",
+"-B/-G": "{plover:deleted}",
 "-BGS": "{^ness}",
-"-L": "{^ly}",
-"-B/-G": "{plover:deleted}"
+"-L": "{^ly}"
 }
