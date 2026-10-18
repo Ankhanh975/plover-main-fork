@@ -1,5 +1,4 @@
 {
-"STPH-B": "{^}{#Down}{^}",
 "#TPH-B": "{^}{#Down}{^}",
 "#TP-PLT": "{;}",
 "STPH-B": "{^}{#Down}{^}",
@@ -311,6 +310,7 @@
 "HRE/TKPWAL": "legal",
 "HRUPL/TPHOUS": "luminous",
 "HR-D": "lead",
+"HAOER/-G": "hearing",
 "HO/SRER": "hover",
 "H*ES": "he's",
 "H*ED": "he'd",
@@ -396,6 +396,7 @@
 "EU/HRE/TKPWAL": "illegal",
 "EUPB/STAED": "instead",
 "EUPB/SREFT/SKWRAEUGS": "investigation",
+"EUPB/TKEUF/*ER/KWREPBS": "indifference",
 "EUPL/POBL": "impossible",
 "EUT": "itself",
 "EPL/PHA/SEUZ": "emphasize",
