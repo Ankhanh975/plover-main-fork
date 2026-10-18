@@ -23,10 +23,10 @@ def delete_space(translator, stroke, cmdline):
     assert not cmdline
     # Retrospective delete space
     translations = translator.get_state().translations
-    if len(translations) < 2:
+    if not translations:
         return
     replaced = translations[-2:]
-    if replaced[1].is_retrospective_command:
+    if replaced[-1].is_retrospective_command:
         return
     english = []
     for t in replaced:
@@ -35,10 +35,15 @@ def delete_space(translator, stroke, cmdline):
         elif len(t.rtfcre) == 1 and t.rtfcre[0].isdigit():
             english.append("{&%s}" % t.rtfcre[0])
     if len(english) > 1:
-        t = Translation([stroke], "{^~|^}".join(english))
-        t.replaced = replaced
-        t.is_retrospective_command = True
-        translator.translate_translation(t)
+        english = "{^~|^}".join(english)
+    elif len(replaced) == 1 and english:
+        english = "{^~|^}" + english[0]
+    else:
+        return
+    t = Translation([stroke], english)
+    t.replaced = replaced
+    t.is_retrospective_command = True
+    translator.translate_translation(t)
 
 
 def insert_space(translator, stroke, cmdline):
