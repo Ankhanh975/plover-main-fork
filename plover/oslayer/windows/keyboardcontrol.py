@@ -112,6 +112,11 @@ SCANCODE_TO_KEY = {
 
 KEY_TO_SCANCODE = dict(zip(SCANCODE_TO_KEY.values(), SCANCODE_TO_KEY.keys()))
 
+PASSTHROUGH_SCAN_CODES = {
+    KEY_TO_SCANCODE[key]
+    for key in ("2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=")
+}
+
 PASSTHROUGH_KEYS = {
     0xA2,  # Control
     0xA3,  # Control
@@ -433,6 +438,8 @@ class KeyboardCaptureProcess(multiprocessing.Process):
             if event.flags & LLKHF_INJECTED:
                 # Ignore simulated events (e.g. from KeyboardEmulation).
                 return False
+            if event.scanCode in PASSTHROUGH_SCAN_CODES:
+                return False
             if event.vkCode in PASSTHROUGH_KEYS:
                 if pressed:
                     passthrough_down_keys.add(event.vkCode)
@@ -640,39 +647,63 @@ class KeyboardEmulation(GenericKeyboardEmulation):
         self._send_input(self._keyboard(keycode, flags))
 
     # Press and release a key
-    def _key_press(self, char):
+    def _key_press_inputs(self, char):
         vk, ss = self.keyboard_layout.char_to_vk_ss[char]
         keycode_list = []
         keycode_list.extend(self.keyboard_layout.ss_to_vks[ss])
         keycode_list.append(vk)
-        # Press all keys.
-        for keycode in keycode_list:
-            self._key_event(keycode, True)
-        # Release all keys
-        for keycode in keycode_list:
-            self._key_event(keycode, False)
+        return [
+            self._keyboard(keycode, flags)
+            for flags in (0, KEYEVENTF_KEYUP)
+            for keycode in keycode_list
+        ]
+
+    def _key_press(self, char):
+        self._send_input(*self._key_press_inputs(char))
 
     def _refresh_keyboard_layout(self):
         layout_id = KeyboardLayout.current_layout_id()
         if layout_id != self.keyboard_layout.layout_id:
             self.keyboard_layout = KeyboardLayout(layout_id)
 
-    def _key_unicode(self, char):
+    def _key_unicode_inputs(self, char):
         pairs = to_surrogate_pair(char)
         # Send press events for all codes, then release events for all codes.
-        inputs = [
+        return [
             self._keyboard(code, KEYEVENTF_UNICODE | direction)
             for direction in (0, KEYEVENTF_KEYUP)
             for code in pairs
         ]
+
+    def _key_unicode(self, char):
+        inputs = self._key_unicode_inputs(char)
         self._send_input(*inputs)
 
     def send_backspaces(self, count):
+        if self._key_press_delay_ms <= 0:
+            inputs = []
+            for _ in range(count):
+                inputs.extend(self._key_press_inputs("\x08"))
+            if inputs:
+                self._send_input(*inputs)
+            return
+
         for _ in self.with_delay(range(count)):
             self._key_press("\x08")
 
     def send_string(self, string):
         self._refresh_keyboard_layout()
+        if self._key_press_delay_ms <= 0:
+            inputs = []
+            for char in string:
+                if char in self.keyboard_layout.char_to_vk_ss:
+                    inputs.extend(self._key_press_inputs(char))
+                else:
+                    inputs.extend(self._key_unicode_inputs(char))
+            if inputs:
+                self._send_input(*inputs)
+            return
+
         for char in self.with_delay(string):
             if char in self.keyboard_layout.char_to_vk_ss:
                 # We know how to simulate the character.

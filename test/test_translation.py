@@ -8,6 +8,7 @@ import ast
 import copy
 import operator
 
+from plover.formatting import Formatter
 from plover.oslayer.config import PLATFORM
 from plover.steno import Stroke, normalize_steno
 
@@ -17,7 +18,11 @@ from plover.steno_dictionary import StenoDictionary, StenoDictionaryCollection
 from plover.translation import Translation, Translator, _State
 from plover.translation import escape_translation, unescape_translation
 
-from plover_build_utils.testing import parametrize, steno_to_stroke as stroke
+from plover_build_utils.testing import (
+    CaptureOutput,
+    parametrize,
+    steno_to_stroke as stroke,
+)
 
 
 if PLATFORM == "mac":
@@ -692,6 +697,19 @@ class TestTranslateStroke:
         do[0].replaced = undo
         self._check_translations(do)
         self._check_output(undo, do, None)
+
+    def test_retrospective_delete_leading_space(self):
+        self.define("K", "kick")
+        self.define("SP*", "{*!}")
+        output = CaptureOutput()
+        formatter = Formatter()
+        formatter.set_output(output)
+        self.tlor.add_listener(formatter.format)
+
+        self.translate("K")
+        self.translate("SP*")
+
+        assert output.instructions == [("s", " kick"), ("b", 5), ("s", "kick")]
 
     def test_retrospective_delete_space_with_number(self):
         self.define("T/E/S/T", "a longer key")
