@@ -112,6 +112,11 @@ SCANCODE_TO_KEY = {
 
 KEY_TO_SCANCODE = dict(zip(SCANCODE_TO_KEY.values(), SCANCODE_TO_KEY.keys()))
 
+PASSTHROUGH_SCAN_CODES = {
+    KEY_TO_SCANCODE[key]
+    for key in ("2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=")
+}
+
 PASSTHROUGH_KEYS = {
     0xA2,  # Control
     0xA3,  # Control
@@ -432,6 +437,8 @@ class KeyboardCaptureProcess(multiprocessing.Process):
 
             if event.flags & LLKHF_INJECTED:
                 # Ignore simulated events (e.g. from KeyboardEmulation).
+                return False
+            if event.scanCode in PASSTHROUGH_SCAN_CODES:
                 return False
             if event.vkCode in PASSTHROUGH_KEYS:
                 if pressed:

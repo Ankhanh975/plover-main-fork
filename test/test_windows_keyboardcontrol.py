@@ -11,7 +11,12 @@ from plover.oslayer.windows.keyboardcontrol import (
     KEYEVENTF_KEYUP,
     KEYEVENTF_UNICODE,
     KeyboardEmulation,
+    PASSTHROUGH_SCAN_CODES,
 )  # noqa: E402
+
+
+def test_number_and_punctuation_keys_pass_through_except_one():
+    assert PASSTHROUGH_SCAN_CODES == {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
 
 
 @pytest.fixture
