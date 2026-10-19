@@ -429,13 +429,16 @@ class StenoEngine:
     def _toggle_output(self):
         self._set_output(not self._is_running)
 
-    def _set_output(self, enabled):
+    def _set_output(self, enabled, preserve_translator_state=False):
         if enabled == self._is_running:
             return
         self._is_running = enabled
         if enabled:
-            self._translator.set_state(self._running_state)
-            self._reset_translator_state_on_next_stroke = True
+            if preserve_translator_state:
+                self._reset_translator_state_on_next_stroke = False
+            else:
+                self._translator.set_state(self._running_state)
+                self._reset_translator_state_on_next_stroke = True
         else:
             self._translator.clear_state()
             self._external_deleted_characters = 0
@@ -497,21 +500,25 @@ class StenoEngine:
             self._modifier_disabled = False
         return False
 
-    def _consume_engine_command(self, command, force=False):
+    def _consume_engine_command(
+        self, command, force=False, preserve_translator_state=False
+    ) -> Optional[str]:
         # The first commands can be used whether plover has output enabled or not.
         command_name, *command_args = command.split(":", 1)
         command_name = command_name.lower()
         if command_name == "resume":
-            self._set_output(True)
-            return True
+            self._set_output(
+                True, preserve_translator_state=preserve_translator_state
+            )
+            return command_name
         elif command_name == "toggle":
             self._toggle_output()
-            return True
+            return command_name
         elif command_name == "quit":
             self.quit()
-            return True
+            return command_name
         if not force and not self._is_running:
-            return False
+            return None
         # These commands can only be run when plover has output enabled.
         if command_name == "suspend":
             self._set_output(False)
@@ -528,7 +535,7 @@ class StenoEngine:
         else:
             command_fn = registry.get_plugin("command", command_name).obj
             command_fn(self, command_args[0] if command_args else "")
-        return False
+        return None
 
     def _execute_engine_command(self, command, force=False):
         self._consume_engine_command(command, force=force)
@@ -583,18 +590,13 @@ class StenoEngine:
         ``run_shell`` command with the argument ``foo``.
         """
         was_running = self._is_running
-        is_resume = command.split(":", 1)[0].lower() == "resume"
-        translator_state = (
-            self._translator.get_state() if is_resume and not was_running else None
+        handled_command = self._consume_engine_command(
+            command, preserve_translator_state=True
         )
-        suppress = not was_running
-        suppress &= self._consume_engine_command(command)
-        if translator_state is not None:
-            self._translator.set_state(translator_state)
-            self._reset_translator_state_on_next_stroke = False
+        suppress = not was_running and handled_command is not None
         if suppress:
             self._machine.suppress_last_stroke(self._keyboard_emulation.send_backspaces)
-        if is_resume and not was_running:
+        if handled_command == "resume" and not was_running:
             self._send_string(" ")
 
     def toggle_output(self):

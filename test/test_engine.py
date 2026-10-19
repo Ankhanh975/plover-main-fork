@@ -213,6 +213,15 @@ def test_resume_command_does_not_insert_space_when_output_was_enabled(engine):
     engine._keyboard_emulation.send_string.assert_not_called()
 
 
+def test_direct_resume_resets_translator_state(engine):
+    engine.load_config()
+    engine.start()
+
+    engine._execute_engine_command("resume")
+
+    assert engine._reset_translator_state_on_next_stroke
+
+
 def test_resume_with_period_preserves_next_word_capitalization(engine):
     engine.load_config()
     engine.start()
