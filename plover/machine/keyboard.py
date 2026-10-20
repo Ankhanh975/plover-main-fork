@@ -54,6 +54,7 @@ class Keyboard(StenotypeBase):
         super().__init__()
         self._arpeggiate = params["arpeggiate"]
         self._first_up_chord_send = params["first_up_chord_send"]
+        self._early_stroke_send = params.get("early_stroke_send", True)
         self._always_suppressed_keys = {"caps_lock"}
         if self._arpeggiate and self._first_up_chord_send:
             self._error()
@@ -186,6 +187,8 @@ class Keyboard(StenotypeBase):
             steno_keys = self._steno_keys_for_stroke()
             if not steno_keys:
                 return
+            if not self._early_stroke_send:
+                return
             if (
                 not self._early_stroke_sent
                 and steno_keys == set(system.Stroke.UNDO_STROKE.steno_keys)
@@ -216,7 +219,7 @@ class Keyboard(StenotypeBase):
                 self._chord_already_sent = False
             else:
                 self._stroke_keys.add(key)
-                if is_new_key:
+                if is_new_key and self._early_stroke_send:
                     if self._early_stroke_sent:
                         self._stroke_needs_correction = True
                     self._schedule_stroke()
@@ -291,4 +294,5 @@ class Keyboard(StenotypeBase):
         return {
             "arpeggiate": (False, boolean),
             "first_up_chord_send": (False, boolean),
+            "early_stroke_send": (True, boolean),
         }

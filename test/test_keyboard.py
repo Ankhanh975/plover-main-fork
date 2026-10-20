@@ -163,7 +163,7 @@ def test_stroke_is_sent_after_key_down_quiet_period(capture, machine, strokes, t
     capture.key_down("a")
 
     assert strokes == []
-    assert timers[-1].interval == 0.025
+    assert timers[-1].interval == machine.KEY_DOWN_DELAY
     timers[-1].fire()
     assert strokes == [{"S-"}]
 
@@ -255,6 +255,32 @@ def test_released_stroke_is_not_undone_by_next_stroke(capture, machine, strokes,
 
     capture.key_up("h")
     assert strokes == [{"S-"}, {"*"}]
+
+
+@pytest.mark.parametrize(
+    "machine",
+    [
+        {
+            "arpeggiate": False,
+            "first_up_chord_send": False,
+            "early_stroke_send": False,
+        }
+    ],
+    indirect=True,
+)
+def test_early_chord_send_can_be_disabled(capture, machine, strokes, timers):
+    machine.start_capture()
+    capture.key_down("a")
+    capture.key_down("h")
+
+    assert timers == []
+    assert strokes == []
+
+    capture.key_up("a")
+    assert strokes == []
+
+    capture.key_up("h")
+    assert strokes == [{"S-", "*"}]
 
 
 @arpeggiate
