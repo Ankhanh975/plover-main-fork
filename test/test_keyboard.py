@@ -185,6 +185,38 @@ def test_early_stroke_is_replaced_when_chord_grows(capture, machine, strokes, ti
     assert strokes == [{"S-"}, {"*"}, {"S-", "*"}]
 
 
+def test_undo_stroke_is_not_sent_early_before_chord_growth(
+    capture, machine, strokes, timers
+):
+    machine.start_capture()
+    undo_key = next(
+        key
+        for key, steno_key in machine._bindings.items()
+        if steno_key in system.Stroke.UNDO_STROKE.steno_keys
+    )
+    other_key = next(
+        key
+        for key, steno_key in machine._bindings.items()
+        if steno_key is not None and steno_key not in system.Stroke.UNDO_STROKE.steno_keys
+    )
+    expected_stroke = {
+        machine._bindings[undo_key],
+        machine._bindings[other_key],
+    }
+
+    capture.key_down(undo_key)
+    timers[-1].fire()
+    assert strokes == []
+
+    capture.key_down(other_key)
+    timers[-1].fire()
+    assert strokes == [expected_stroke]
+
+    capture.key_up(undo_key)
+    capture.key_up(other_key)
+    assert strokes == [expected_stroke]
+
+
 def test_chord_growth_is_corrected_if_released_before_quiet_period(
     capture, machine, strokes, timers
 ):
@@ -219,7 +251,9 @@ def test_released_stroke_is_not_undone_by_next_stroke(capture, machine, strokes,
 
     capture.key_down("h")
     timers[-1].fire()
+    assert strokes == [{"S-"}]
 
+    capture.key_up("h")
     assert strokes == [{"S-"}, {"*"}]
 
 

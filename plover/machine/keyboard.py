@@ -186,6 +186,11 @@ class Keyboard(StenotypeBase):
             steno_keys = self._steno_keys_for_stroke()
             if not steno_keys:
                 return
+            if (
+                not self._early_stroke_sent
+                and steno_keys == set(system.Stroke.UNDO_STROKE.steno_keys)
+            ):
+                return
             if self._stroke_needs_correction:
                 self._notify_correction()
             self._last_stroke_key_down_count = self._stroke_key_down_count
