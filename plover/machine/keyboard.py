@@ -4,7 +4,9 @@
 
 "For use with a computer keyboard (preferably NKRO) as a steno machine."
 
-from plover import _
+import threading
+
+from plover import _, system
 from plover.machine.base import StenotypeBase
 from plover.misc import boolean
 from plover.oslayer.keyboardcontrol import KeyboardCapture
@@ -33,6 +35,7 @@ class Keyboard(StenotypeBase):
                      space                                   Left Down Right
     """
     ACTIONS = ("arpeggiate",)
+    KEY_DOWN_DELAY = 0.015
 
     # Map Windows VK codes for modifier notification to canonical names.
     VK_TO_MODNAME = {
@@ -58,6 +61,11 @@ class Keyboard(StenotypeBase):
                 "Arpeggiate and first-up chord send cannot both be enabled!"
             )
         self._is_suppressed = False
+        self._stroke_lock = threading.RLock()
+        self._stroke_timer = None
+        self._stroke_timer_generation = 0
+        self._early_stroke_sent = False
+        self._stroke_needs_correction = False
         # Currently held keys.
         self._down_keys = set()
         if self._first_up_chord_send:
@@ -121,6 +129,8 @@ class Keyboard(StenotypeBase):
 
     def stop_capture(self):
         """Stop listening for output from the stenotype machine."""
+        with self._stroke_lock:
+            self._cancel_stroke_timer()
         if self._keyboard_capture is not None:
             self._is_suppressed = False
             self._update_suppression()
@@ -136,6 +146,53 @@ class Keyboard(StenotypeBase):
         send_backspaces(self._last_stroke_key_down_count)
         self._last_stroke_key_down_count = 0
 
+    def _cancel_stroke_timer(self):
+        self._stroke_timer_generation += 1
+        if self._stroke_timer is not None:
+            self._stroke_timer.cancel()
+            self._stroke_timer = None
+
+    def _schedule_stroke(self):
+        self._cancel_stroke_timer()
+        generation = self._stroke_timer_generation
+        self._stroke_timer = threading.Timer(
+            self.KEY_DOWN_DELAY, self._send_early_stroke, args=(generation,)
+        )
+        self._stroke_timer.daemon = True
+        self._stroke_timer.start()
+
+    def _steno_keys_for_stroke(self):
+        return {self._bindings.get(key) for key in self._stroke_keys} - {None}
+
+    def _notify_correction(self):
+        self._notify(set(system.Stroke.UNDO_STROKE.steno_keys))
+
+    def _send_early_stroke(self, generation):
+        with self._stroke_lock:
+            if generation != self._stroke_timer_generation:
+                return
+            self._stroke_timer = None
+            if (
+                self._first_up_chord_send
+                or not self._down_keys
+                or not self._stroke_keys
+                or (
+                    self._arpeggiate
+                    and self._arpeggiate_key not in self._stroke_keys
+                )
+            ):
+                return
+
+            steno_keys = self._steno_keys_for_stroke()
+            if not steno_keys:
+                return
+            if self._stroke_needs_correction:
+                self._notify_correction()
+            self._last_stroke_key_down_count = self._stroke_key_down_count
+            self._notify(steno_keys)
+            self._early_stroke_sent = True
+            self._stroke_needs_correction = False
+
     def _key_down(self, key):
         """Called when a key is pressed."""
         assert key is not None
@@ -146,12 +203,18 @@ class Keyboard(StenotypeBase):
             if key in ("BackSpace", "Delete"):
                 self._notify_key(key)
             return
-        self._stroke_key_down_count += 1
-        self._down_keys.add(key)
-        if self._first_up_chord_send:
-            self._chord_already_sent = False
-        else:
-            self._stroke_keys.add(key)
+        with self._stroke_lock:
+            is_new_key = key not in self._down_keys
+            self._stroke_key_down_count += 1
+            self._down_keys.add(key)
+            if self._first_up_chord_send:
+                self._chord_already_sent = False
+            else:
+                self._stroke_keys.add(key)
+                if is_new_key:
+                    if self._early_stroke_sent:
+                        self._stroke_needs_correction = True
+                    self._schedule_stroke()
 
     def _key_up(self, key):
         """Called when a key is released."""
@@ -161,33 +224,46 @@ class Keyboard(StenotypeBase):
         if key not in self._bindings:
             return
 
-        self._down_keys.discard(key)
+        with self._stroke_lock:
+            self._down_keys.discard(key)
 
-        if self._first_up_chord_send:
-            if self._chord_already_sent:
-                return
-        else:
-            # A stroke is complete if all pressed keys have been released,
-            # and — when arpeggiate mode is enabled — the arpeggiate key
-            # is part of it.
-            if (
-                self._down_keys
-                or not self._stroke_keys
-                or (self._arpeggiate and self._arpeggiate_key not in self._stroke_keys)
-            ):
-                return
+            if self._first_up_chord_send:
+                if self._chord_already_sent:
+                    return
+            else:
+                # A stroke is complete if all pressed keys have been released,
+                # and — when arpeggiate mode is enabled — the arpeggiate key
+                # is part of it.
+                if (
+                    self._down_keys
+                    or not self._stroke_keys
+                    or (
+                        self._arpeggiate
+                        and self._arpeggiate_key not in self._stroke_keys
+                    )
+                ):
+                    return
 
-        self._last_stroke_key_down_count = self._stroke_key_down_count
-        if self._first_up_chord_send:
-            steno_keys = {self._bindings.get(k) for k in self._down_keys | {key}}
-            self._chord_already_sent = True
-        else:
-            steno_keys = {self._bindings.get(k) for k in self._stroke_keys}
-            self._stroke_keys.clear()
-        steno_keys -= {None}
-        if steno_keys:
-            self._notify(steno_keys)
-        self._stroke_key_down_count = 0
+            self._cancel_stroke_timer()
+            self._last_stroke_key_down_count = self._stroke_key_down_count
+            if self._first_up_chord_send:
+                steno_keys = {self._bindings.get(k) for k in self._down_keys | {key}}
+                self._chord_already_sent = True
+            else:
+                steno_keys = self._steno_keys_for_stroke()
+                needs_correction = self._stroke_needs_correction
+                if needs_correction:
+                    self._notify_correction()
+                self._stroke_keys.clear()
+                if (not self._early_stroke_sent or needs_correction) and steno_keys:
+                    self._notify(steno_keys)
+            if self._first_up_chord_send:
+                steno_keys -= {None}
+                if steno_keys:
+                    self._notify(steno_keys)
+            self._early_stroke_sent = False
+            self._stroke_needs_correction = False
+            self._stroke_key_down_count = 0
 
     def _modifier_changed(self, vk_codes):
         """Called by the capture layer when modifier keys change.

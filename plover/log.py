@@ -20,6 +20,8 @@ LOG_MAX_BYTES = 10000000
 LOG_COUNT = 9
 
 STROKE_LOG_FORMAT = "%(asctime)s %(message)s"
+TIMING = INFO + 5
+logging.addLevelName(TIMING, "TIMING")
 
 
 class NoExceptionTracebackFormatter(logging.Formatter):
@@ -60,7 +62,7 @@ class PrintHandler(logging.StreamHandler):
 class Logger:
     def __init__(self):
         self._print_handler = PrintHandler()
-        self._print_handler.setLevel(WARNING)
+        self._print_handler.setLevel(TIMING)
         self._file_handler = None
         self._platform_handler = None
         self._logger = logging.getLogger("plover")
@@ -104,6 +106,9 @@ class Logger:
         self._file_handler = FileHandler()
         self._file_handler.setLevel(self.level)
         self._logger.addHandler(self._file_handler)
+
+    def timing(self, msg, *args, **kwargs):
+        self._logger.log(TIMING, msg, *args, **kwargs)
 
     def _setup_stroke_logging(self):
         is_logging = self._stroke_handler is not None
@@ -180,6 +185,7 @@ __logger = Logger()
 # The following functions direct all input to __logger.
 debug = __logger.debug
 info = __logger.info
+timing = __logger.timing
 warning = __logger.warning
 error = __logger.error
 set_level = __logger.set_level

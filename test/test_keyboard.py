@@ -26,6 +26,31 @@ def capture():
         yield capture
 
 
+@pytest.fixture
+def timers(monkeypatch):
+    timers = []
+
+    class FakeTimer:
+        def __init__(self, interval, callback, args=()):
+            self.interval = interval
+            self.callback = callback
+            self.args = args
+            self.daemon = False
+            timers.append(self)
+
+        def start(self):
+            pass
+
+        def cancel(self):
+            pass
+
+        def fire(self):
+            self.callback(*self.args)
+
+    monkeypatch.setattr("plover.machine.keyboard.threading.Timer", FakeTimer)
+    return timers
+
+
 @pytest.fixture(params=[{"arpeggiate": False, "first_up_chord_send": False}])
 def machine(request, capture):
     machine = Keyboard(request.param)
@@ -131,6 +156,71 @@ def test_unfinished_stroke_2(capture, machine, strokes):
     machine.start_capture()
     send_input(capture, "+a +r -a +a -r")
     assert strokes == []
+
+
+def test_stroke_is_sent_after_key_down_quiet_period(capture, machine, strokes, timers):
+    machine.start_capture()
+    capture.key_down("a")
+
+    assert strokes == []
+    assert timers[-1].interval == 0.015
+    timers[-1].fire()
+    assert strokes == [{"S-"}]
+
+    capture.key_up("a")
+    assert strokes == [{"S-"}]
+
+
+def test_early_stroke_is_replaced_when_chord_grows(capture, machine, strokes, timers):
+    machine.start_capture()
+    capture.key_down("a")
+    timers[-1].fire()
+    capture.key_down("h")
+    timers[-1].fire()
+
+    assert strokes == [{"S-"}, {"*"}, {"S-", "*"}]
+
+    capture.key_up("a")
+    capture.key_up("h")
+    assert strokes == [{"S-"}, {"*"}, {"S-", "*"}]
+
+
+def test_chord_growth_is_corrected_if_released_before_quiet_period(
+    capture, machine, strokes, timers
+):
+    machine.start_capture()
+    capture.key_down("a")
+    timers[-1].fire()
+    capture.key_down("h")
+    capture.key_up("a")
+    capture.key_up("h")
+
+    assert strokes == [{"S-"}, {"*"}, {"S-", "*"}]
+
+
+def test_keys_pressed_before_quiet_period_are_sent_as_one_stroke(
+    capture, machine, strokes, timers
+):
+    machine.start_capture()
+    capture.key_down("a")
+    first_timer = timers[-1]
+    capture.key_down("h")
+    timers[-1].fire()
+    first_timer.fire()
+
+    assert strokes == [{"S-", "*"}]
+
+
+def test_released_stroke_is_not_undone_by_next_stroke(capture, machine, strokes, timers):
+    machine.start_capture()
+    capture.key_down("a")
+    timers[-1].fire()
+    capture.key_up("a")
+
+    capture.key_down("h")
+    timers[-1].fire()
+
+    assert strokes == [{"S-"}, {"*"}]
 
 
 @arpeggiate
