@@ -163,7 +163,7 @@ def test_stroke_is_sent_after_key_down_quiet_period(capture, machine, strokes, t
     capture.key_down("a")
 
     assert strokes == []
-    assert timers[-1].interval == 0.015
+    assert timers[-1].interval == 0.025
     timers[-1].fire()
     assert strokes == [{"S-"}]
 

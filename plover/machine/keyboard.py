@@ -35,7 +35,7 @@ class Keyboard(StenotypeBase):
                      space                                   Left Down Right
     """
     ACTIONS = ("arpeggiate",)
-    KEY_DOWN_DELAY = 0.015
+    KEY_DOWN_DELAY = 0.025
 
     # Map Windows VK codes for modifier notification to canonical names.
     VK_TO_MODNAME = {
