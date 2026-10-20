@@ -1,0 +1,197 @@
+it has to do with caches or threads scheduling or something because the time vary a lot 
+
+2026-10-20 10:17:47,352.352 [Dummy-1] DEBUG: engine input stroke: *Stroke(* : ['*'])
+2026-10-20 10:17:47,362.362 [Dummy-1] DEBUG: engine stroke *Stroke(* : ['*']) translation completed in 0.465 ms
+2026-10-20 10:17:47,460.460 [Dummy-1] DEBUG: engine input stroke: Stroke(P : ['P-'])
+2026-10-20 10:17:47,470.470 [Dummy-1] DEBUG: engine stroke Stroke(P : ['P-']) translation completed in 8.869 ms
+2026-10-20 10:17:47,776.776 [Dummy-1] DEBUG: engine input stroke: Stroke(W : ['W-'])
+2026-10-20 10:17:47,784.784 [Dummy-1] DEBUG: engine stroke Stroke(W : ['W-']) translation completed in 2.322 ms
+2026-10-20 10:17:47,975.975 [Dummy-1] DEBUG: engine input stroke: Stroke(-F : ['-F'])
+2026-10-20 10:17:47,985.985 [Dummy-1] DEBUG: engine stroke Stroke(-F : ['-F']) translation completed in 1.393 ms
+2026-10-20 10:17:48,226.226 [Dummy-1] DEBUG: engine input stroke: Stroke(-G : ['-G'])
+2026-10-20 10:17:48,234.234 [Dummy-1] DEBUG: engine stroke Stroke(-G : ['-G']) translation completed in 3.717 ms
+2026-10-20 10:17:48,600.600 [Dummy-1] DEBUG: engine input stroke: Stroke(*EP : ['*', '-E', '-P'])
+2026-10-20 10:17:48,612.612 [Dummy-1] DEBUG: engine stroke Stroke(*EP : ['*', '-E', '-P']) translation completed in 1.439 ms
+2026-10-20 10:17:48,960.960 [Dummy-1] DEBUG: engine input stroke: Stroke(H-L : ['H-', '-L'])
+2026-10-20 10:17:48,972.972 [Dummy-1] DEBUG: engine stroke Stroke(H-L : ['H-', '-L']) translation completed in 1.535 ms
+2026-10-20 10:17:49,227.227 [Dummy-1] DEBUG: engine input stroke: Stroke(K : ['K-'])
+2026-10-20 10:17:49,236.236 [Dummy-1] DEBUG: engine stroke Stroke(K : ['K-']) translation completed in 4.106 ms
+2026-10-20 10:17:49,589.589 [Dummy-1] DEBUG: engine input stroke: Stroke(PUL : ['P-', '-U', '-L'])
+2026-10-20 10:17:49,593.593 [Dummy-1] DEBUG: engine stroke Stroke(PUL : ['P-', '-U', '-L']) translation completed in 1.265 ms
+2026-10-20 10:17:49,770.770 [Dummy-1] DEBUG: engine input stroke: *Stroke(* : ['*'])
+2026-10-20 10:17:49,773.773 [Dummy-1] DEBUG: engine stroke *Stroke(* : ['*']) translation completed in 0.630 ms
+2026-10-20 10:17:50,180.180 [Dummy-1] DEBUG: engine input stroke: Stroke(*EP : ['*', '-E', '-P'])
+2026-10-20 10:17:50,186.186 [Dummy-1] DEBUG: engine stroke Stroke(*EP : ['*', '-E', '-P']) translation completed in 1.942 ms
+2026-10-20 10:17:51,239.239 [Dummy-1] DEBUG: engine input stroke: Stroke(P : ['P-'])
+2026-10-20 10:17:51,244.244 [Dummy-1] DEBUG: engine stroke Stroke(P : ['P-']) translation completed in 2.616 ms
+2026-10-20 10:17:51,906.906 [Dummy-1] DEBUG: engine input stroke: Stroke(SKPAF : ['S-', 'K-', 'P-', 'A-', '-F'])
+2026-10-20 10:17:51,909.909 [Dummy-1] DEBUG: engine stroke Stroke(SKPAF : ['S-', 'K-', 'P-', 'A-', '-F']) translation completed in 0.982 ms
+2026-10-20 10:17:52,675.675 [Dummy-1] DEBUG: engine input stroke: Stroke(P* : ['P-', '*'])
+2026-10-20 10:17:52,677.677 [Dummy-1] DEBUG: engine stroke Stroke(P* : ['P-', '*']) translation completed in 1.121 ms
+2026-10-20 10:17:53,324.324 [Dummy-1] DEBUG: engine input stroke: Stroke(P*UP : ['P-', '*', '-U', '-P'])
+2026-10-20 10:17:53,339.339 [Dummy-1] DEBUG: engine stroke Stroke(P*UP : ['P-', '*', '-U', '-P']) translation completed in 5.889 ms
+2026-10-20 10:17:53,695.695 [Dummy-1] DEBUG: engine input stroke: Stroke(SO : ['S-', 'O-'])
+2026-10-20 10:17:53,707.707 [Dummy-1] DEBUG: engine stroke Stroke(SO : ['S-', 'O-']) translation completed in 3.819 ms
+2026-10-20 10:17:53,972.972 [Dummy-1] DEBUG: engine input stroke: Stroke(H* : ['H-', '*'])
+2026-10-20 10:17:53,977.977 [Dummy-1] DEBUG: engine stroke Stroke(H* : ['H-', '*']) translation completed in 1.675 ms
+2026-10-20 10:17:54,290.290 [Dummy-1] DEBUG: engine input stroke: Stroke(S : ['S-'])
+2026-10-20 10:17:54,299.299 [Dummy-1] DEBUG: engine stroke Stroke(S : ['S-']) translation completed in 4.651 ms
+2026-10-20 10:17:54,489.489 [Dummy-1] DEBUG: engine input stroke: Stroke(-G : ['-G'])
+2026-10-20 10:17:54,497.497 [Dummy-1] DEBUG: engine stroke Stroke(-G : ['-G']) translation completed in 3.526 ms
+2026-10-20 10:17:54,791.791 [Dummy-1] DEBUG: engine input stroke: Stroke(*L : ['*', '-L'])
+2026-10-20 10:17:54,812.812 [Dummy-1] DEBUG: engine stroke Stroke(*L : ['*', '-L']) translation completed in 4.871 ms
+2026-10-20 10:17:55,190.190 [Thread-2 (_run)] INFO: Modifiers detected: {'Shift'} (from VK codes: {160})
+2026-10-20 10:17:55,200.200 [Thread-2 (_run)] INFO: Modifier state changed: {'Shift'}
+2026-10-20 10:17:55,207.207 [Dummy-1] INFO: _handle_modifier_change called: modifiers={'Shift'}, has_mods=True, disabled=False, running=False
+2026-10-20 10:17:55,628.628 [Thread-2 (_run)] INFO: Modifiers detected: set() (from VK codes: set())
+2026-10-20 10:17:55,637.637 [Thread-2 (_run)] INFO: Modifier state changed: set()
+2026-10-20 10:17:55,637.637 [Dummy-1] INFO: _handle_modifier_change called: modifiers=set(), has_mods=False, disabled=True, running=False
+
+
+Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=512.746
+2026-10-20 11:33:23,644 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=33.831
+2026-10-20 11:33:23,677 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.055
+2026-10-20 11:33:23,712 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.297
+2026-10-20 11:33:23,746 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.072
+2026-10-20 11:33:23,779 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.159
+2026-10-20 11:33:23,813 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.272
+2026-10-20 11:33:23,848 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.419
+2026-10-20 11:33:23,882 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.033
+2026-10-20 11:33:23,917 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.209
+2026-10-20 11:33:23,951 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.257
+2026-10-20 11:33:23,979 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.393
+2026-10-20 11:33:24,020 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.202
+2026-10-20 11:33:24,045 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.232
+2026-10-20 11:33:24,079 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.207
+2026-10-20 11:33:24,122 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.239
+2026-10-20 11:33:24,155 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.335
+2026-10-20 11:33:24,191 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.116
+2026-10-20 11:33:24,224 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.305
+2026-10-20 11:33:24,260 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.240
+2026-10-20 11:33:24,291 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.434
+2026-10-20 11:33:24,326 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.151
+2026-10-20 11:33:24,349 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.083
+2026-10-20 11:33:24,397 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.374
+2026-10-20 11:33:24,431 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.079
+2026-10-20 11:33:24,461 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=34.285
+2026-10-20 11:33:24,511 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=5.131 ms; last key-down to SendInput=46.748 ms; first key-up to SendInput=68.108 ms; last key-up to SendInput=1.775 ms
+2026-10-20 11:33:28,751 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=4287.631
+2026-10-20 11:33:28,751 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.292
+2026-10-20 11:33:28,751 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.156
+2026-10-20 11:33:28,751 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.168
+2026-10-20 11:33:28,751 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.223
+2026-10-20 11:33:28,751 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.981
+2026-10-20 11:33:28,874 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=5.402 ms; last key-down to SendInput=128.888 ms; first key-up to SendInput=67.180 ms; last key-up to SendInput=0.884 ms
+2026-10-20 11:33:29,625 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=876.193
+2026-10-20 11:33:29,625 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.755
+2026-10-20 11:33:29,641 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.679
+2026-10-20 11:33:29,651 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.635
+2026-10-20 11:33:29,651 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1.862
+2026-10-20 11:33:29,657 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.654
+2026-10-20 11:33:29,750 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=5.876 ms; last key-down to SendInput=111.248 ms; first key-up to SendInput=2.612 ms; last key-up to SendInput=1.491 ms
+2026-10-20 11:33:30,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=873.713
+2026-10-20 11:33:30,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.319
+2026-10-20 11:33:30,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.240
+2026-10-20 11:33:30,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.225
+2026-10-20 11:33:30,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.363
+2026-10-20 11:33:30,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1.009
+2026-10-20 11:33:30,624 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=7.644 ms; last key-down to SendInput=105.600 ms; first key-up to SendInput=3.354 ms; last key-up to SendInput=1.697 ms
+2026-10-20 11:33:31,322 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=815.731
+2026-10-20 11:33:31,338 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=16.478
+2026-10-20 11:33:31,455 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=2.148 ms; last key-down to SendInput=111.218 ms; first key-up to SendInput=1.451 ms; last key-up to SendInput=1.178 ms
+2026-10-20 11:33:31,928 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=584.898
+2026-10-20 11:33:31,931 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.349
+2026-10-20 11:33:32,115 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 16/16 events; SendInput duration=15.496 ms; last key-down to SendInput=171.647 ms; first key-up to SendInput=1.317 ms; last key-up to SendInput=1.044 ms
+2026-10-20 11:33:32,495 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=566.416
+2026-10-20 11:33:32,498 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.522
+2026-10-20 11:33:32,501 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.244
+2026-10-20 11:33:32,504 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.547
+2026-10-20 11:33:32,505 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1.193
+2026-10-20 11:33:32,507 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.312
+2026-10-20 11:33:32,658 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 28/28 events; SendInput duration=32.636 ms; last key-down to SendInput=128.141 ms; first key-up to SendInput=2.690 ms; last key-up to SendInput=1.682 ms
+2026-10-20 11:33:33,092 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=594.605
+2026-10-20 11:33:33,095 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.400
+2026-10-20 11:33:33,098 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.426
+2026-10-20 11:33:33,099 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.414
+2026-10-20 11:33:33,102 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.850
+2026-10-20 11:33:33,104 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.268
+2026-10-20 11:33:33,237 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 28/28 events; SendInput duration=37.002 ms; last key-down to SendInput=105.243 ms; first key-up to SendInput=24.525 ms; last key-up to SendInput=2.402 ms
+2026-10-20 11:33:33,356 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=261.580
+2026-10-20 11:33:33,358 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.257
+2026-10-20 11:33:33,361 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.215
+2026-10-20 11:33:33,362 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.273
+2026-10-20 11:33:33,364 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.811
+2026-10-20 11:33:33,365 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.489
+2026-10-20 11:33:33,519 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 28/28 events; SendInput duration=29.104 ms; last key-down to SendInput=132.165 ms; first key-up to SendInput=56.038 ms; last key-up to SendInput=1.717 ms
+2026-10-20 11:33:33,924 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=566.366
+2026-10-20 11:33:33,926 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.324
+2026-10-20 11:33:33,928 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.177
+2026-10-20 11:33:33,929 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.214
+2026-10-20 11:33:34,082 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 16/16 events; SendInput duration=18.186 ms; last key-down to SendInput=139.120 ms; first key-up to SendInput=46.442 ms; last key-up to SendInput=1.155 ms
+2026-10-20 11:33:34,588 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=661.065
+2026-10-20 11:33:34,595 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.938
+2026-10-20 11:33:34,601 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.661
+2026-10-20 11:33:34,616 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.774
+2026-10-20 11:33:34,726 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 20/20 events; SendInput duration=22.630 ms; last key-down to SendInput=120.775 ms; first key-up to SendInput=2.027 ms; last key-up to SendInput=1.482 ms
+2026-10-20 11:33:35,208 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=618.502
+2026-10-20 11:33:35,215 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.904
+2026-10-20 11:33:35,222 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.747
+2026-10-20 11:33:35,225 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.732
+2026-10-20 11:33:35,349 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=1.758 ms; last key-down to SendInput=137.570 ms; first key-up to SendInput=83.901 ms; last key-up to SendInput=1.367 ms
+2026-10-20 11:33:35,368 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=13.964 ms
+2026-10-20 11:33:35,628 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=417.851
+2026-10-20 11:33:35,635 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.903
+2026-10-20 11:33:35,642 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.532
+2026-10-20 11:33:35,671 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=40.563
+2026-10-20 11:33:35,789 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 20/20 events; SendInput duration=29.654 ms; last key-down to SendInput=90.364 ms; first key-up to SendInput=2.685 ms; last key-up to SendInput=1.974 ms
+2026-10-20 11:33:36,932 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1262.806
+2026-10-20 11:33:36,932 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.286
+2026-10-20 11:33:36,932 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.282
+2026-10-20 11:33:36,932 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.672
+2026-10-20 11:33:37,086 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 20/20 events; SendInput duration=19.573 ms; last key-down to SendInput=139.113 ms; first key-up to SendInput=53.824 ms; last key-up to SendInput=1.072 ms
+2026-10-20 11:33:37,550 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=615.676
+2026-10-20 11:33:37,553 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.339
+2026-10-20 11:33:37,556 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.254
+2026-10-20 11:33:37,580 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=29.465
+2026-10-20 11:33:37,705 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=6.126 ms; last key-down to SendInput=120.295 ms; first key-up to SendInput=5.922 ms; last key-up to SendInput=3.715 ms
+2026-10-20 11:33:37,722 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=15.943 ms
+2026-10-20 11:33:38,721 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1141.226
+2026-10-20 11:33:38,758 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=37.284
+2026-10-20 11:33:38,759 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.298
+2026-10-20 11:33:38,761 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.171
+2026-10-20 11:33:38,921 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=1.271 ms; last key-down to SendInput=162.899 ms; first key-up to SendInput=63.005 ms; last key-up to SendInput=1.018 ms
+2026-10-20 11:33:43,844 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=5089.484
+2026-10-20 11:33:43,850 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.753
+2026-10-20 11:33:43,989 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=1.883 ms; last key-down to SendInput=139.529 ms; first key-up to SendInput=30.621 ms; last key-up to SendInput=1.136 ms
+2026-10-20 11:33:44,561 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=718.862
+2026-10-20 11:33:44,561 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.296
+2026-10-20 11:33:44,561 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.292
+2026-10-20 11:33:44,561 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.274
+2026-10-20 11:33:44,692 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=2.631 ms; last key-down to SendInput=121.348 ms; first key-up to SendInput=45.973 ms; last key-up to SendInput=1.008 ms
+2026-10-20 11:33:45,376 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=811.083
+2026-10-20 11:33:45,376 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.228
+2026-10-20 11:33:45,376 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.130
+2026-10-20 11:33:45,392 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=15.420
+2026-10-20 11:33:45,535 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=1.032 ms; last key-down to SendInput=139.184 ms; first key-up to SendInput=75.082 ms; last key-up to SendInput=0.964 ms
+2026-10-20 11:33:45,547 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=11.430 ms
+2026-10-20 11:33:45,909 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=513.077
+2026-10-20 11:33:45,917 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.805
+2026-10-20 11:33:45,925 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.934
+2026-10-20 11:33:45,941 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1.096
+2026-10-20 11:33:46,058 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 2/2 events; SendInput duration=2.009 ms; last key-down to SendInput=144.771 ms; first key-up to SendInput=75.094 ms; last key-up to SendInput=1.367 ms
+2026-10-20 11:33:46,074 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 4/4 events; SendInput duration=11.290 ms
+2026-10-20 11:33:46,401 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=490.338
+2026-10-20 11:33:46,405 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.373
+2026-10-20 11:33:46,504 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 14/14 events; SendInput duration=16.879 ms; last key-down to SendInput=85.882 ms; first key-up to SendInput=23.822 ms; last key-up to SendInput=1.295 ms
+2026-10-20 11:33:49,270 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=2870.280
+2026-10-20 11:33:49,274 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.696
+2026-10-20 11:33:49,406 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 14/14 events; SendInput duration=15.984 ms; last key-down to SendInput=117.961 ms; first key-up to SendInput=39.279 ms; last key-up to SendInput=1.699 ms
+2026-10-20 11:33:52,363 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=3089.157
+2026-10-20 11:33:52,369 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.853
+2026-10-20 11:33:52,530 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 14/14 events; SendInput duration=17.486 ms; last key-down to SendInput=149.984 ms; first key-up to SendInput=24.219 ms; last key-up to SendInput=1.720 ms
+2026-10-20 11:33:54,244 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=1883.742
+2026-10-20 11:33:54,244 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=0.441
+2026-10-20 11:33:54,374 [Dummy-1] WARNING: [keyboard timing] SendInput inserted 14/14 events; SendInput duration=14.580 ms; last key-down to SendInput=117.700 ms; first key-up to SendInput=1.227 ms; last key-up to SendInput=0.962 ms
+2026-10-20 11:34:14,335 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=20100.118
+2026-10-20 11:34:53,548 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=39200.727
+2026-10-20 11:34:53,619 [Thread-2 (_run)] WARNING: [keyboard timing] captured key-down interval_ms=84.689

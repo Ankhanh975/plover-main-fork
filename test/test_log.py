@@ -2,7 +2,8 @@
 # See LICENSE.txt for details.
 
 import os
-from logging import Handler
+from io import StringIO
+from logging import Handler, WARNING
 from collections import defaultdict
 
 import pytest
@@ -92,3 +93,16 @@ def test_enable_translation_logging():
     log.enable_translation_logging(False)
     log.translation(["e"], ["f"], None)
     assert FakeHandler.outputs == {sf: ["*c", "d"]}
+
+
+def test_timing_log_is_visible_on_console_by_default(monkeypatch):
+    stream = StringIO()
+    handler = log.__logger._print_handler
+    monkeypatch.setattr(handler, "stream", stream)
+    log.timing("keyboard timing measurement")
+
+    assert "TIMING: keyboard timing measurement" in stream.getvalue()
+
+
+def test_warning_level_is_exported():
+    assert log.WARNING == WARNING

@@ -14,7 +14,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from plover import log, system
 from plover.dictionary.loading_manager import DictionaryLoadingManager
-from plover.formatting import Formatter
+from plover.formatting import Case, Formatter
 from plover.misc import shorten_path
 from plover.registry import registry
 from plover.resource import ASSET_SCHEME, resource_filename
@@ -597,6 +597,16 @@ class StenoEngine:
         if suppress:
             self._machine.suppress_last_stroke(self._keyboard_emulation.send_backspaces)
         if handled_command == "resume" and not was_running:
+            translations = self._translator.get_state().translations
+            formatting = translations[-1].formatting if translations else ()
+            if (
+                len(formatting) > 1
+                and formatting[-2].command
+                and formatting[-2].command.lower() == "resume"
+                and formatting[-1].text is None
+                and formatting[-1].next_case == Case.CAP_FIRST_WORD
+            ):
+                return
             self._send_string(" ")
 
     def toggle_output(self):

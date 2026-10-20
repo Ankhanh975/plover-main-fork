@@ -235,10 +235,31 @@ def test_resume_with_period_preserves_next_word_capitalization(engine):
     engine._translator.translate(Stroke.from_steno("TP-PL"))
     engine._translator.translate(Stroke.from_steno("TEFT"))
 
+    assert engine._keyboard_emulation.send_string.call_args_list[0].args == (" ",)
     assert any(
         "Hello" in call.args[0]
         for call in engine._keyboard_emulation.send_string.call_args_list
     )
+
+
+def test_resume_with_capitalization_meta_does_not_insert_space(engine):
+    engine.load_config()
+    engine.start()
+    dictionary = StenoDictionary()
+    dictionary[("TP-PL",)] = "{PLOVER:RESUME}{-|}"
+    dictionary[("TEFT",)] = "hello"
+    engine._dictionaries.set_dicts([dictionary])
+    engine._keyboard_emulation.send_string = mock.Mock()
+    FakeMachine.instance.suppress_last_stroke = mock.Mock()
+
+    engine._translator.translate(Stroke.from_steno("TP-PL"))
+    engine._translator.translate(Stroke.from_steno("TEFT"))
+
+    sent_strings = [
+        call.args[0] for call in engine._keyboard_emulation.send_string.call_args_list
+    ]
+    assert sent_strings[0] != " "
+    assert any("Hello" in sent_string for sent_string in sent_strings)
 
 
 def test_loading_dictionaries(tmp_path, engine):
