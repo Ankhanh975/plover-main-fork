@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>159</width>
-    <height>66</height>
+    <width>240</width>
+    <height>96</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,16 @@ If the key is pressed and released again, another chord is sent.</string>
      </property>
      <property name="text">
       <string>First-up chord send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="early_stroke_send">
+     <property name="toolTip">
+      <string>Send a chord after the keys have been held for a short quiet period. If more keys are pressed, correct the provisional output and send the expanded chord.</string>
+     </property>
+     <property name="text">
+      <string>Early chord send</string>
      </property>
     </widget>
    </item>
@@ -74,9 +84,26 @@ If the key is pressed and released again, another chord is sent.</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>early_stroke_send</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>KeyboardWidget</receiver>
+   <slot>update_early_stroke_send(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>79</x>
+     <y>76</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>update_arpeggiate(bool)</slot>
   <slot>update_first_up_chord_send(bool)</slot>
+  <slot>update_early_stroke_send(bool)</slot>
  </slots>
 </ui>
