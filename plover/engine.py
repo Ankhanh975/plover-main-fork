@@ -544,11 +544,15 @@ class StenoEngine:
     def _on_stroked(self, steno_keys):
         stroke = Stroke(steno_keys)
         log.stroke(stroke)
-        if self._reset_translator_state_on_next_stroke:
-            self._translator.clear_state()
-            self._running_state = self._translator.get_state()
-            self._reset_translator_state_on_next_stroke = False
-        self._translator.translate(stroke)
+        resume_stroke = not self._is_running and stroke.rtfcre == "R-R"
+        if resume_stroke:
+            self._send_engine_command("resume", extra_backspaces=1)
+        else:
+            if self._reset_translator_state_on_next_stroke:
+                self._translator.clear_state()
+                self._running_state = self._translator.get_state()
+                self._reset_translator_state_on_next_stroke = False
+            self._translator.translate(stroke)
         self._trigger_hook("stroked", stroke)
 
     def _on_translated(self, old, new):
@@ -580,7 +584,7 @@ class StenoEngine:
         self._keyboard_emulation.send_key_combination(c)
         self._trigger_hook("send_key_combination", c)
 
-    def _send_engine_command(self, command: str) -> None:
+    def _send_engine_command(self, command: str, extra_backspaces: int = 0) -> None:
         """Runs the specified Plover command, which can be either a built-in
         command like ``set_config`` or one from an external plugin.
 
@@ -595,7 +599,11 @@ class StenoEngine:
         )
         suppress = not was_running and handled_command is not None
         if suppress:
-            self._machine.suppress_last_stroke(self._keyboard_emulation.send_backspaces)
+            self._machine.suppress_last_stroke(
+                lambda count: self._keyboard_emulation.send_backspaces(
+                    count + extra_backspaces
+                )
+            )
         if handled_command == "resume" and not was_running:
             translations = self._translator.get_state().translations
             formatting = translations[-1].formatting if translations else ()

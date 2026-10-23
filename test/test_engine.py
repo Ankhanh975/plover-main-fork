@@ -202,6 +202,42 @@ def test_resume_command_inserts_space_when_output_was_disabled(engine):
     engine._keyboard_emulation.send_string.assert_called_once_with(" ")
 
 
+def test_r_r_resumes_when_output_was_disabled(engine):
+    engine.load_config()
+    engine.start()
+    dictionary = StenoDictionary()
+    dictionary[("R-R",)] = "{^}{^~|\n^}{^}"
+    engine._dictionaries.set_dicts([dictionary])
+    engine.set_output(False)
+    engine._keyboard_emulation.send_string = mock.Mock()
+    engine._keyboard_emulation.send_backspaces = mock.Mock()
+    FakeMachine.instance.suppress_last_stroke = mock.Mock(
+        side_effect=lambda send_backspaces: send_backspaces(1)
+    )
+
+    engine._on_stroked(Stroke.from_steno("R-R"))
+
+    assert engine.output
+    assert not engine.translator_state.translations
+    FakeMachine.instance.suppress_last_stroke.assert_called_once()
+    engine._keyboard_emulation.send_backspaces.assert_called_once_with(2)
+    engine._keyboard_emulation.send_string.assert_called_once_with(" ")
+
+
+def test_r_r_uses_dictionary_translation_when_output_was_enabled(engine):
+    engine.load_config()
+    engine.start()
+    engine.set_output(True)
+    dictionary = StenoDictionary()
+    translation = "{^}{^~|\n^}{^}"
+    dictionary[("R-R",)] = translation
+    engine._dictionaries.set_dicts([dictionary])
+
+    engine._on_stroked(Stroke.from_steno("R-R"))
+
+    assert engine.translator_state.translations[-1].english == translation
+
+
 def test_resume_command_does_not_insert_space_when_output_was_enabled(engine):
     engine.load_config()
     engine.start()
