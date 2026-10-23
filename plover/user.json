@@ -1,6 +1,6 @@
 {
-"23-789": "{;}",
 "234-B": "{^}{#Down}{^}",
+"23-789": "{;}",
 "STPH-B": "{^}{#Down}{^}",
 "STP-PLT": "{;}",
 "STRAEPL": "stream",
@@ -425,6 +425,8 @@
 "O/PORT/TAOUPB/TEU": "opportunity",
 "O/PEUPBGS": "opinion",
 "O/HREUF": "to live",
+"O/REUPBT": "orient",
+"O/REPBT": "orient",
 "O*E/O*E": "oh oh",
 "OE/SEUS": "oasis",
 "OF/TPEUS": "office",
@@ -484,5 +486,6 @@
 "-RB": "\nQ:\t",
 "-B/-G": "{plover:deleted}",
 "-BGS": "{^ness}",
-"-L": "{^ly}"
+"-L": "{^ly}",
+"-LT": "{^lity}"
 }

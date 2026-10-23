@@ -507,9 +507,7 @@ class StenoEngine:
         command_name, *command_args = command.split(":", 1)
         command_name = command_name.lower()
         if command_name == "resume":
-            self._set_output(
-                True, preserve_translator_state=preserve_translator_state
-            )
+            self._set_output(True, preserve_translator_state=preserve_translator_state)
             return command_name
         elif command_name == "toggle":
             self._toggle_output()
@@ -546,7 +544,7 @@ class StenoEngine:
         log.stroke(stroke)
         resume_stroke = not self._is_running and stroke.rtfcre == "R-R"
         if resume_stroke:
-            self._send_engine_command("resume", extra_backspaces=1)
+            self._send_engine_command("resume")
         else:
             if self._reset_translator_state_on_next_stroke:
                 self._translator.clear_state()
