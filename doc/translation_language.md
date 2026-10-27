@@ -162,6 +162,9 @@ realize that a word should be capitalized after you've written it. For example,
 _Suggested outline_: `KA*PD` ("capped")
 :::
 
+`{:retro_case:toggle_first_char}` toggles the first character of the previous
+word between uppercase and lowercase.
+
 :::{plover:operator} {>}; {:case:lower_first_char}
 Forces the next letter to be lowercase, for example `{>}Plover` = `plover`.
 
