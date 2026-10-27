@@ -800,6 +800,22 @@ class TestsBlackbox:
         KWEUP/RUP  ' Equip'
         """
 
+    def test_retro_toggle_capitalization(self):
+        r"""
+        'WORD': 'word',
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        WORD/KPA/KPA/KPA/KPA  ' word'
+        """
+
+    def test_retro_toggle_capitalization_of_capitalized_word(self):
+        r"""
+        'WORD': 'Word',
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        WORD/KPA/KPA  ' word'
+        """
+
     def test_retro_currency1(self):
         r"""
         'TPHAPB': 'notanumber',
