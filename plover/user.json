@@ -1,6 +1,7 @@
 {
 "234-B": "{^}{#Down}{^}",
 "23-789": "{;}",
+"STPH*": "{plover:deleted}",
 "STPH-B": "{^}{#Down}{^}",
 "STP-PLT": "{;}",
 "STRAEPL": "stream",
@@ -48,6 +49,7 @@
 "SREUT": "Viet",
 "SREUT/TPHAPL": "Vietnam",
 "SREPBT/*UR": "venture",
+"SRES/KWREL": "vessel",
 "SA/TEUS/TPEU": "satisfy",
 "SAOEU/KAL": "cycle",
 "SAOEUPB/TUR": "signature",
