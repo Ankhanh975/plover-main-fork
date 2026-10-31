@@ -10,7 +10,7 @@ of the steno machine every time that state changes.
 
 from plover.machine.base import ThreadedStenotypeBase
 from plover.misc import boolean
-from plover import log
+from plover import log, system
 
 import hid
 import time
@@ -89,6 +89,8 @@ class HidDeviceRecord:
 
 
 class PloverHid(ThreadedStenotypeBase):
+    EARLY_STROKE_DELAY = 0.035
+
     # fmt: off
     KEYS_LAYOUT: str = '''
         #1 #2  #3 #4 #5 #6 #7 #8 #9 #A #B #C
@@ -215,22 +217,49 @@ class PloverHid(ThreadedStenotypeBase):
             raise InvalidReport()
 
     def _send(self, key_state: int) -> None:
-        steno_actions = self.keymap.keys_to_actions(
-            [key for i, key in enumerate(STENO_KEY_CHART) if key_state >> (63 - i) & 1]
-        )
+        steno_actions = self._steno_actions(key_state)
         if steno_actions:
             self._notify(steno_actions)
+
+    def _steno_actions(self, key_state: int) -> list[str]:
+        return self.keymap.keys_to_actions(
+            [key for i, key in enumerate(STENO_KEY_CHART) if key_state >> (63 - i) & 1]
+        )
+
+    def _send_correction(self) -> None:
+        self._notify(set(system.Stroke.UNDO_STROKE.steno_keys))
 
     def run(self) -> None:
         key_state = 0
         current = 0
         last_sent = 0
         press_started = time.time()
+        last_key_down = 0.0
+        early_stroke_sent = False
+        stroke_needs_correction = False
+        provisional_stroke_sends = 0
         sent_first_up = False
         while not self.finished.wait(0):
             interval_ms = self._params["repeat_interval_ms"]
+            timeout = interval_ms / 1000.0
+            if (
+                self._params.get("early_stroke_send", True)
+                and not self._params["first_up_chord_send"]
+                and current
+                and key_state
+                and (not early_stroke_sent or stroke_needs_correction)
+            ):
+                steno_actions = self._steno_actions(key_state)
+                if steno_actions and (
+                    early_stroke_sent
+                    or set(steno_actions) != set(system.Stroke.UNDO_STROKE.steno_keys)
+                ):
+                    quiet_period_remaining = (
+                        last_key_down + self.EARLY_STROKE_DELAY - time.monotonic()
+                    )
+                    timeout = min(timeout, max(0.0, quiet_period_remaining))
             try:
-                report = self._report_queue.get(timeout=interval_ms / 1000.0)
+                report = self._report_queue.get(timeout=timeout)
             except Empty:
                 # No report in this slice; handle repeats
                 if (
@@ -242,9 +271,34 @@ class PloverHid(ThreadedStenotypeBase):
                     self._send(current)
                     # Avoid sending an extra chord when the repeated chord is released.
                     sent_first_up = True
+                    if early_stroke_sent and not stroke_needs_correction:
+                        provisional_stroke_sends += 1
+
+                if (
+                    self._params.get("early_stroke_send", True)
+                    and not self._params["first_up_chord_send"]
+                    and current
+                    and key_state
+                    and (not early_stroke_sent or stroke_needs_correction)
+                    and time.monotonic() - last_key_down
+                    >= self.EARLY_STROKE_DELAY
+                ):
+                    steno_actions = self._steno_actions(key_state)
+                    if steno_actions and (
+                        early_stroke_sent
+                        or set(steno_actions) != set(system.Stroke.UNDO_STROKE.steno_keys)
+                    ):
+                        if stroke_needs_correction:
+                            for _ in range(provisional_stroke_sends):
+                                self._send_correction()
+                        self._send(key_state)
+                        early_stroke_sent = True
+                        stroke_needs_correction = False
+                        provisional_stroke_sends = 1
                 continue
 
             try:
+                previous = current
                 current = self._parse(report)
             except InvalidReport:
                 log.error("invalid report")
@@ -262,12 +316,26 @@ class PloverHid(ThreadedStenotypeBase):
                     sent_first_up = False
                 key_state = current
             else:
+                newly_pressed = current & ~previous
                 key_state |= current
+                if newly_pressed:
+                    last_key_down = time.monotonic()
+                    if early_stroke_sent:
+                        stroke_needs_correction = True
                 if current == 0:
                     # All fingers are up: send the "total" chord and reset it.
-                    self._send(key_state)
+                    if early_stroke_sent:
+                        if stroke_needs_correction:
+                            for _ in range(provisional_stroke_sends):
+                                self._send_correction()
+                            self._send(key_state)
+                    else:
+                        self._send(key_state)
                     last_sent = key_state
                     key_state = 0
+                    early_stroke_sent = False
+                    stroke_needs_correction = False
+                    provisional_stroke_sends = 0
 
     def start_capture(self) -> None:
         self.finished.clear()
@@ -326,6 +394,7 @@ class PloverHid(ThreadedStenotypeBase):
     def get_option_info(cls):
         return {
             "first_up_chord_send": (False, boolean),
+            "early_stroke_send": (True, boolean),
             "double_tap_repeat": (False, boolean),
             "repeat_delay_ms": (200, int),
             "repeat_interval_ms": (30, int),

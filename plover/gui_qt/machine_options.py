@@ -240,6 +240,7 @@ class PloverHidOption(QGroupBox, Ui_PloverHidWidget):
     def setValue(self, value):
         self._value = copy(value)
         self.first_up_chord_send.setChecked(value["first_up_chord_send"])
+        self.early_stroke_send.setChecked(value["early_stroke_send"])
         self.double_tap_repeat.setChecked(value["double_tap_repeat"])
         self.repeat_delay_ms.setText(str(value["repeat_delay_ms"]))
         self.repeat_interval_ms.setText(str(value["repeat_interval_ms"]))
@@ -250,6 +251,11 @@ class PloverHidOption(QGroupBox, Ui_PloverHidWidget):
     @Slot(bool)
     def update_first_up_chord_send(self, value):
         self._value["first_up_chord_send"] = value
+        self.valueChanged.emit(self._value)
+
+    @Slot(bool)
+    def update_early_stroke_send(self, value):
+        self._value["early_stroke_send"] = value
         self.valueChanged.emit(self._value)
 
     @Slot(bool)

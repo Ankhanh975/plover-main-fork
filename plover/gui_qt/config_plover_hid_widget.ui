@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>140</height>
+    <height>170</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,8 +27,20 @@ If the key is pressed and released again, another chord is sent.</string>
     </widget>
    </item>
 
-   <!-- Row 1: Double tap repeat -->
+   <!-- Row 1: Early chord send -->
    <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="early_stroke_send">
+     <property name="toolTip">
+      <string>Send a chord after the keys have been held for a short quiet period. If more keys are pressed, correct the provisional output and send the expanded chord.</string>
+     </property>
+     <property name="text">
+      <string>Early chord send</string>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Row 2: Double tap repeat -->
+   <item row="2" column="0" colspan="2">
     <widget class="QCheckBox" name="double_tap_repeat">
      <property name="toolTip">
       <string>Tap and then hold a chord to send it repeatedly.</string>
@@ -39,8 +51,8 @@ If the key is pressed and released again, another chord is sent.</string>
     </widget>
    </item>
 
-   <!-- Row 2: Repeat delay (ms) -->
-   <item row="2" column="0">
+   <!-- Row 3: Repeat delay (ms) -->
+   <item row="3" column="0">
     <widget class="QLabel" name="label_repeat_delay_ms">
      <property name="text">
       <string>Repeat delay (ms)</string>
@@ -50,7 +62,7 @@ If the key is pressed and released again, another chord is sent.</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="3" column="1">
     <widget class="QLineEdit" name="repeat_delay_ms">
      <property name="toolTip">
       <string>Delay before chord starts repeating.</string>
@@ -58,8 +70,8 @@ If the key is pressed and released again, another chord is sent.</string>
     </widget>
    </item>
 
-   <!-- Row 3: Repeat interval (ms) -->
-   <item row="3" column="0">
+   <!-- Row 4: Repeat interval (ms) -->
+   <item row="4" column="0">
     <widget class="QLabel" name="label_repeat_interval_ms">
      <property name="text">
       <string>Repeat interval (ms)</string>
@@ -69,7 +81,7 @@ If the key is pressed and released again, another chord is sent.</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="4" column="1">
     <widget class="QLineEdit" name="repeat_interval_ms">
      <property name="toolTip">
       <string>Interval between chord repetitions.</string>
@@ -77,8 +89,8 @@ If the key is pressed and released again, another chord is sent.</string>
     </widget>
    </item>
 
-   <!-- Row 4: Device scan interval (ms) -->
-   <item row="4" column="0">
+   <!-- Row 5: Device scan interval (ms) -->
+   <item row="5" column="0">
     <widget class="QLabel" name="label_device_scan_interval_ms">
      <property name="text">
       <string>Device scan interval (ms)</string>
@@ -88,7 +100,7 @@ If the key is pressed and released again, another chord is sent.</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QLineEdit" name="device_scan_interval_ms">
      <property name="toolTip">
       <string>How often to scan for newly plugged-in devices.</string>
@@ -106,6 +118,12 @@ If the key is pressed and released again, another chord is sent.</string>
    <signal>clicked(bool)</signal>
    <receiver>PloverHidWidget</receiver>
    <slot>update_first_up_chord_send(bool)</slot>
+  </connection>
+  <connection>
+   <sender>early_stroke_send</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>PloverHidWidget</receiver>
+   <slot>update_early_stroke_send(bool)</slot>
   </connection>
   <connection>
    <sender>double_tap_repeat</sender>
@@ -137,6 +155,7 @@ If the key is pressed and released again, another chord is sent.</string>
 
  <slots>
   <slot>update_first_up_chord_send(bool)</slot>
+  <slot>update_early_stroke_send(bool)</slot>
   <slot>update_double_tap_repeat(bool)</slot>
   <slot>update_repeat_delay_ms(QString)</slot>
   <slot>update_repeat_interval_ms(QString)</slot>
