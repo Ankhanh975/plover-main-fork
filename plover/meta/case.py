@@ -1,9 +1,4 @@
-from plover.formatting import (
-    Case,
-    apply_case,
-    capitalize_first_word,
-    lower_first_character,
-)
+from plover.formatting import Case, apply_case
 
 
 def meta_case(ctx, case):
@@ -23,11 +18,17 @@ def meta_retro_case(ctx, case):
         action.prev_replace = last_words[0]
         if case.lower() == "toggle_first_char":
             word = last_words[0]
-            action.text = (
-                lower_first_character(word)
-                if word[0:1].isupper()
-                else capitalize_first_word(word)
+            index = next(
+                (i for i, character in enumerate(word) if character.isalpha()), None
             )
+            if index is None:
+                action.text = word
+            else:
+                character = word[index]
+                changed = (
+                    character.lower() if character.isupper() else character.upper()
+                )
+                action.text = word[:index] + changed + word[index + 1 :]
         else:
             action.text = apply_case(last_words[0], Case(case.lower()))
     else:

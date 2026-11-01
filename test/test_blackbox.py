@@ -816,6 +816,14 @@ class TestsBlackbox:
         WORD/KPA/KPA  ' word'
         """
 
+    def test_retro_toggle_capitalization_after_single_quote(self):
+        r"""
+        'WORD': "'word",
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        WORD/KPA/KPA  " 'Word"
+        """
+
     def test_retro_currency1(self):
         r"""
         'TPHAPB': 'notanumber',
