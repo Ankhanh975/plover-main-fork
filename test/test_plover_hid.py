@@ -90,6 +90,15 @@ def test_early_chord_send_after_quiet_period(hid_machine):
     assert strokes == [(machine.EARLY_STROKE_DELAY, {"S-"})]
 
 
+def test_custom_steno_keys_are_available_for_keymap_configuration(hid_machine):
+    machine, clock = hid_machine
+
+    mappings = machine.keymap.get_mappings()
+    assert mappings["-N"] == ()
+    assert mappings["-X"] == ()
+    assert {"X1", "X2"} <= set(mappings["no-op"])
+
+
 def test_early_chord_send_corrects_when_chord_grows(hid_machine):
     machine, clock = hid_machine
 
