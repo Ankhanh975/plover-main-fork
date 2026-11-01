@@ -40,15 +40,15 @@ def test_modal_dictionary_tray_icon_tracks_runtime_state(monkeypatch):
     )
 
     icon.update_dictionaries([unrelated_dictionary])
-    assert icon._trayicon.tooltip == "Modal dictionary is disabled"
-    assert icon._trayicon.icon is icon._state_icons[False]
+    assert icon._trayicon.tooltip == "Modal dictionary: typing layout"
+    assert icon._trayicon.icon is icon._state_icons["typing"]
 
     modal_dictionary._activated = True
     icon.update_dictionaries([modal_dictionary])
-    assert icon._trayicon.tooltip == "Modal dictionary is enabled"
-    assert icon._trayicon.icon is icon._state_icons[True]
+    assert icon._trayicon.tooltip == "Modal dictionary: meta-key layout"
+    assert icon._trayicon.icon is icon._state_icons["meta"]
 
     modal_dictionary._activated = False
     icon.update_dictionaries([modal_dictionary])
-    assert icon._trayicon.tooltip == "Modal dictionary is disabled"
-    assert icon._trayicon.icon is icon._state_icons[False]
+    assert icon._trayicon.tooltip == "Modal dictionary: typing layout"
+    assert icon._trayicon.icon is icon._state_icons["typing"]

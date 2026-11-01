@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
-  <title>Modal inactive</title>
-  <rect x="7" y="25" width="82" height="46" rx="23" fill="#59636e"/>
-  <circle cx="30" cy="48" r="17" fill="#fff"/>
+  <title>Typing layout</title>
+  <rect x="8" y="8" width="80" height="80" rx="16" fill="#e07a24"/>
+  <path d="M25 29h46v9H53v29h-10V38H25z" fill="#fff"/>
 </svg>

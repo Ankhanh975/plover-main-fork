@@ -28,8 +28,8 @@ class ModalDictionaryTrayIcon(QObject):
         self._trayicon = None
         self._modal_active = False
         self._state_icons = {
-            False: QIcon(":resources/modal-inactive.svg"),
-            True: QIcon(":resources/modal-active.svg"),
+            "typing": QIcon(":resources/modal-inactive.svg"),
+            "meta": QIcon(":resources/modal-active.svg"),
         }
         self._state_changed.connect(self._set_modal_active)
 
@@ -66,11 +66,12 @@ class ModalDictionaryTrayIcon(QObject):
     def _update_state(self):
         if not self._enabled:
             return
-        self._trayicon.setIcon(self._state_icons[self._modal_active])
+        layout = "meta" if self._modal_active else "typing"
+        self._trayicon.setIcon(self._state_icons[layout])
         self._trayicon.setToolTip(
-            _("Modal dictionary is enabled")
+            _("Modal dictionary: meta-key layout")
             if self._modal_active
-            else _("Modal dictionary is disabled")
+            else _("Modal dictionary: typing layout")
         )
 
 
