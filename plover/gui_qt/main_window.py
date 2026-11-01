@@ -20,7 +20,7 @@ from plover.gui_qt.log_qt import NotificationHandler
 from plover.gui_qt.main_window_ui import Ui_MainWindow
 from plover.gui_qt.config_window import ConfigWindow
 from plover.gui_qt.about_dialog import AboutDialog
-from plover.gui_qt.trayicon import TrayIcon
+from plover.gui_qt.trayicon import ModalDictionaryTrayIcon, TrayIcon
 from plover.gui_qt.utils import WindowStateMixin
 from plover.gui_qt import appearance
 
@@ -35,6 +35,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
             self.setUnifiedTitleAndToolBarOnMac(True)
         self._engine = engine
         self._active_dialogs = {}
+        self._modal_state_hook_connected = False
         self._dialog_class = {
             "about": AboutDialog,
             "configuration": ConfigWindow,
@@ -50,6 +51,8 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
         # Tray icon.
         self._trayicon = TrayIcon()
         self._trayicon.enable()
+        self._modal_dictionary_trayicon = ModalDictionaryTrayIcon()
+        self._modal_dictionary_trayicon.enable()
         self._trayicon.clicked.connect(self._engine.toggle_output)
         if use_qt_notifications:
             handler = NotificationHandler()
@@ -77,6 +80,12 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
         self._trayicon.set_menu(popup_menu)
         engine.signal_connect(
             "machine_state_changed", self._trayicon.update_machine_state
+        )
+        engine.signal_connect(
+            "dictionaries_loaded",
+            lambda dictionaries: self._modal_dictionary_trayicon.update_dictionaries(
+                dictionaries.dicts
+            ),
         )
         engine.signal_connect("quit", self.quit_application)
         self.action_Quit.triggered.connect(engine.quit)
@@ -235,12 +244,21 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
     def on_config_changed(self, config_update):
         if "machine_type" in config_update:
             self._update_machine(config_update["machine_type"])
+        if self._modal_state_hook_connected:
+            self._engine.hook_disconnect("stroked", self._update_modal_dictionary_state)
+        self._engine.hook_connect("stroked", self._update_modal_dictionary_state)
+        self._modal_state_hook_connected = True
         if not self._configured:
             self._configured = True
             if config_update.get("show_suggestions_display", False):
                 self._activate_dialog("suggestions")
             if config_update.get("show_stroke_display", False):
                 self._activate_dialog("paper_tape")
+
+    def _update_modal_dictionary_state(self, _stroke):
+        self._modal_dictionary_trayicon.update_dictionaries(
+            self._engine.dictionaries.dicts
+        )
 
     @Slot(int)
     def update_machine_type(self, machine_index):
@@ -294,6 +312,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
             dialog.close()
         self.save_state()
         self._trayicon.disable()
+        self._modal_dictionary_trayicon.disable()
         self.hide()
         QCoreApplication.quit()
 

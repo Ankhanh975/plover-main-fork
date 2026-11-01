@@ -1,4 +1,6 @@
-from PySide6.QtCore import QObject, Signal
+import os
+
+from PySide6.QtCore import QObject, Signal, Slot
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMessageBox, QSystemTrayIcon
 
@@ -9,6 +11,70 @@ from plover.machine.base import (
     STATE_INITIALIZING,
     STATE_RUNNING,
 )
+
+
+MODAL_DICTIONARY_PATH_SUFFIX = os.path.normcase(
+    os.path.join("plover", "lapwing-movement.modal")
+)
+
+
+class ModalDictionaryTrayIcon(QObject):
+    _state_changed = Signal(bool)
+
+    def __init__(self):
+        super().__init__()
+        self._supported = QSystemTrayIcon.isSystemTrayAvailable()
+        self._enabled = False
+        self._trayicon = None
+        self._modal_active = False
+        self._state_icons = {}
+        for state in ("disabled", "enabled"):
+            icon = QIcon(":resources/state-%s.svg" % state)
+            if hasattr(icon, "setIsMask"):
+                icon.setIsMask(True)
+            self._state_icons[state] = icon
+        self._state_changed.connect(self._set_modal_active)
+
+    def enable(self):
+        if not self._supported:
+            return
+        self._trayicon = QSystemTrayIcon()
+        self._enabled = True
+        self._update_state()
+        self._trayicon.show()
+
+    def disable(self):
+        if not self._enabled:
+            return
+        self._trayicon.hide()
+        self._trayicon = None
+        self._enabled = False
+
+    def update_dictionaries(self, dictionaries):
+        modal_active = any(
+            os.path.normcase(os.path.normpath(dictionary.path)).endswith(
+                MODAL_DICTIONARY_PATH_SUFFIX
+            )
+            and getattr(dictionary, "_activated", False)
+            for dictionary in dictionaries
+        )
+        self._state_changed.emit(modal_active)
+
+    @Slot(bool)
+    def _set_modal_active(self, modal_active):
+        self._modal_active = modal_active
+        self._update_state()
+
+    def _update_state(self):
+        if not self._enabled:
+            return
+        state = "enabled" if self._modal_active else "disabled"
+        self._trayicon.setIcon(self._state_icons[state])
+        self._trayicon.setToolTip(
+            _("Modal dictionary is enabled")
+            if self._modal_active
+            else _("Modal dictionary is disabled")
+        )
 
 
 class TrayIcon(QObject):
