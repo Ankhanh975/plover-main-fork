@@ -12,6 +12,8 @@
     <file>resources/git.png</file>
     <file>resources/lightbulb.svg</file>
     <file>resources/lookup.svg</file>
+    <file>resources/modal-active.svg</file>
+    <file>resources/modal-inactive.svg</file>
     <file>resources/pencil.svg</file>
     <file>resources/pin.svg</file>
     <file>resources/plover.png</file>

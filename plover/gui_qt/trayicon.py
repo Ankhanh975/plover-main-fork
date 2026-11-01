@@ -27,12 +27,10 @@ class ModalDictionaryTrayIcon(QObject):
         self._enabled = False
         self._trayicon = None
         self._modal_active = False
-        self._state_icons = {}
-        for state in ("disabled", "enabled"):
-            icon = QIcon(":resources/state-%s.svg" % state)
-            if hasattr(icon, "setIsMask"):
-                icon.setIsMask(True)
-            self._state_icons[state] = icon
+        self._state_icons = {
+            False: QIcon(":resources/modal-inactive.svg"),
+            True: QIcon(":resources/modal-active.svg"),
+        }
         self._state_changed.connect(self._set_modal_active)
 
     def enable(self):
@@ -68,8 +66,7 @@ class ModalDictionaryTrayIcon(QObject):
     def _update_state(self):
         if not self._enabled:
             return
-        state = "enabled" if self._modal_active else "disabled"
-        self._trayicon.setIcon(self._state_icons[state])
+        self._trayicon.setIcon(self._state_icons[self._modal_active])
         self._trayicon.setToolTip(
             _("Modal dictionary is enabled")
             if self._modal_active
