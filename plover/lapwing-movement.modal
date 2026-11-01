@@ -1,19 +1,18 @@
 {
     "exclude_entry": false,
-    "exit_on_mismatch": true,
+    "exit_on_mismatch": false,
     "exit_on_match": false,
     "ignore_folding": false,
 
     "entry": {
-        "STPH": "{&}{^}",
-        "#TPH": "{&}{^}",
+        "SKWR": "{&}{^}",
         "-N": "{&}{^}"
     },
 
     "exit": {
-        "STPH*": "{&}{^}",
-         "-X": "{&}{^}",
-         "R-R": "{&}{^}"
+        "-X": "{&}{^}",
+        "STPH": "{&}{^}",
+        "#TPH": "{&}{^}"
     },
     
 
@@ -180,6 +179,10 @@
         "OFRP": "{#Control_L(Shift_L(o))}",
         "EFRP": "{#Control_L(Shift_L(e))}",
         "EUFRP": "{#Control_L(Shift_L(i))}",
-        "UFRP": "{#Control_L(Shift_L(u))}"
+        "UFRP": "{#Control_L(Shift_L(u))}",
+
+        "-Z": "{#Return}",
+        "-BT": "{#Tab}",
+        "-S": "{#Escape}"
     }
 }

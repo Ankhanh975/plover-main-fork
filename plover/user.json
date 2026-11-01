@@ -1,6 +1,7 @@
 {
 "234-B": "{^}{#Down}{^}",
 "23-789": "{;}",
+"STPH": "{&}",
 "STPH*": "{plover:deleted}",
 "STPH-B": "{^}{#Down}{^}",
 "STP-PLT": "{;}",
@@ -279,6 +280,7 @@
 "PWROEPBG": "broken",
 "PWAOU/SEU/-BGS": "business",
 "PWAOU/HREU": "bully",
+"PWAEU/TKEUBG/KWRAL": "basically",
 "PWAEUR/TPAOT": "barefoot",
 "PWALT": "battle",
 "PWOD": "body",

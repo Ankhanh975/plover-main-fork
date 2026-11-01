@@ -234,6 +234,28 @@ def test_dictionary_enabled():
     assert dc.reverse_lookup("Testing") == set()
 
 
+def test_active_modal_dictionary_blocks_fallback():
+    higher_priority = StenoDictionary()
+    higher_priority[("H",)] = "higher priority"
+    modal = StenoDictionary()
+    modal[("M",)] = "modal translation"
+    modal._activated = True
+    lower_priority = StenoDictionary()
+    lower_priority[("S",)] = "fallback"
+    lower_priority[("S", "T")] = "multi-stroke fallback"
+
+    dc = StenoDictionaryCollection([higher_priority, modal, lower_priority])
+
+    assert dc.lookup(("H",)) == "higher priority"
+    assert dc.lookup(("M",)) == "modal translation"
+    assert dc.lookup(("S",)) is None
+    assert dc.lookup(("S", "T")) is None
+
+    modal._activated = False
+    assert dc.lookup(("S",)) == "fallback"
+    assert dc.lookup(("S", "T")) == "multi-stroke fallback"
+
+
 @dictionary_test
 class TestStenoDictionary:
     class DICT_CLASS(StenoDictionary):

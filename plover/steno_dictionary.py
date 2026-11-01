@@ -198,12 +198,16 @@ class StenoDictionaryCollection:
         for d in dicts:
             if not d.enabled:
                 continue
-            if key_len > d.longest_key:
+            # An active modal dictionary owns misses as well as matches.
+            active_modal = getattr(d, "_activated", False)
+            if key_len > d.longest_key and not active_modal:
                 continue
             value = d.get(key)
             if value is not None:
                 if not any(f(key, value) for f in filters):
                     return value
+            if active_modal:
+                return "{plover:deleted}"
 
     def _lookup(self, key, dicts=None, filters=()):
         """

@@ -70,6 +70,10 @@ the translator searches the topmost (highest-priority) dictionary for the steno
 outline, stopping when it finds an entry; then the next dictionary down the
 stack, and so on.
 
+When an active modal dictionary is reached, a missing outline stops lookup in
+lower-priority dictionaries. Higher-priority dictionary entries and matches
+in the modal dictionary still take precedence as usual.
+
 To account for multi-stroke outlines, the translator searches the dictionary
 stack for the longest possible series of strokes first, then one less stroke,
 and so on until the last stroke. The longest possible series of strokes is
