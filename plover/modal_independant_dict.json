@@ -1,0 +1,13 @@
+{
+"S-N": "{#Super_L(1)}",
+"S-X": "{#Control_L(1)}",
+"T-X": "{#Control_L(2)}",
+"K-N": "{#Super_L(2)}",
+"P-X": "{#Control_L(3)}",
+"W-N": "{#Super_L(3)}",
+"H-X": "{#Control_L(4)}",
+"R-N": "{#Super_L(4)}",
+"-FPTX": "{#Control_L(Shift_L(Tab))}",
+"-TN": "{#Super_L(Tab)}",
+"-TX": "{#Control_L(Tab)}"
+}
