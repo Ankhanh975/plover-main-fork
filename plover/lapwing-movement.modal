@@ -17,7 +17,9 @@
         "SKWR": "{^ ^}",
         "TP-PL": "{.}",
         "KPA": "{:case:cap_first_word}",
-        "KW-BG": "{,}"
+        "KW-BG": "{,}",
+        "R-R": "{^ ^}"
+
 
     },
     
@@ -116,7 +118,6 @@
         "WR-R": "{#Control_L(u)}",
         "H-R": "{#Control_L(h)}",
         "HR-R": "{#Control_L(l)}",
-        "R-R": "{#Control_L(r)}",
         "AR": "{#Control_L(a)}",
         "OR": "{#Control_L(o)}",
         "ER": "{#Control_L(e)}",
