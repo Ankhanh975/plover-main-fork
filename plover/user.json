@@ -417,6 +417,7 @@
 "RO/PWER/REU": "robbery",
 "ROES": "rows",
 "ROEZ": "rose",
+"RE/SREPBLG": "revenge",
 "RE/KWRA/HREU/TEU": "reality",
 "RE/KWEUR": "require",
 "REU/SRAL": "rival",
@@ -443,8 +444,10 @@
 "A/PAR/KWREPBT": "apparent",
 "A/POUPBT": "appoint",
 "A/HREU/KWREPB": "alien",
+"A/RO/TKPWAPBT": "arrogant",
 "A/U": "{plover:deleted}",
 "AO*EUS": "ice",
+"AO*UR": "you're",
 "AOE/TKPWAL": "eagle",
 "AOEU/SHAOU": "issue",
 "AOEU/TKEU/KWROT": "idiot",
@@ -470,6 +473,7 @@
 "APB/SOUS": "anxious",
 "APBG/SOUS": "anxious",
 "APBG/TEU": "anxiety",
+"APL/PWEUT/KWROUS": "ambitious",
 "APL/PWUL/KWRAPBS": "ambulance",
 "ABG/KAOU/RAEUT": "accurate",
 "ABG/KU/RAEUT": "accurate",
@@ -555,5 +559,6 @@
 "-BGS": "{^ness}",
 "-L": "{^ly}",
 "-LT": "{^lity}",
+"-TS": "{^sity}",
 "-N": "being"
 }
