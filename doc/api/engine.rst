@@ -84,6 +84,12 @@ called when Plover hooks get triggered.
 
 .. plover:hook:: translated(old, new)
 
+.. plover:hook:: key_event(key: str, action: str, timestamp: float)
+
+   A physical key was pressed or released by a machine that reports individual
+   key states, such as Keyboard or Plover HID. ``action`` is ``"down"`` or
+   ``"up"``. ``timestamp`` is the event time in seconds from a monotonic clock.
+
 .. plover:hook:: machine_state_changed(machine_type: str, machine_state: str)
 
    Either the machine type was changed by the user, or the connection state

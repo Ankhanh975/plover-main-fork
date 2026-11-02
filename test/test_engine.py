@@ -188,6 +188,17 @@ def test_machine_toggle_command_works_while_output_is_disabled(engine):
     assert not engine.output
 
 
+def test_key_events_are_forwarded_from_machine(engine):
+    engine.load_config()
+    engine.start()
+    FakeMachine.instance._notify_key_event("S1-", "down", 1.0)
+
+    assert ("key_event", ("S1-", "down", 1.0), {}) in engine.events
+
+    engine.quit()
+    engine.join()
+
+
 def test_resume_command_inserts_space_when_output_was_disabled(engine):
     engine.load_config()
     engine.start()

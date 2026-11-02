@@ -142,6 +142,7 @@ class StenoEngine:
     HOOKS: List[str] = """
     stroked
     translated
+    key_event
     machine_state_changed
     output_changed
     config_changed
@@ -347,6 +348,11 @@ class StenoEngine:
             except Exception:
                 # Some machine implementations may not provide key callbacks.
                 pass
+            try:
+                self._machine.add_key_event_callback(self._machine_key_event_callback)
+            except Exception:
+                # Some machine implementations may not provide key event callbacks.
+                pass
             self._machine.add_state_callback(self._machine_state_callback)
             self._machine.add_stroke_callback(self._machine_stroke_callback)
             self._machine_params = machine_params
@@ -456,6 +462,11 @@ class StenoEngine:
 
     def _machine_stroke_callback(self, steno_keys):
         self._same_thread_hook(self._on_stroked, steno_keys)
+
+    def _machine_key_event_callback(self, key, action, timestamp):
+        self._same_thread_hook(
+            self._trigger_hook, "key_event", key, action, timestamp
+        )
 
     def _on_external_key(self, key):
         if self._is_running and key in ("BackSpace", "Delete"):

@@ -13,6 +13,7 @@ _FALLBACK_PLUGINS = {
     },
     "gui.qt.tool": {
         "add_translation": "plover.gui_qt.add_translation_dialog:AddTranslationDialog",
+        "key_event_timeline": "plover.gui_qt.key_event_timeline:KeyEventTimeline",
         "lookup": "plover.gui_qt.lookup_dialog:LookupDialog",
         "paper_tape": "plover.gui_qt.paper_tape:PaperTape",
         "plugins_manager": "plover.gui_qt.plugins_manager:PluginsManager",

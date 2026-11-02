@@ -28,8 +28,8 @@ class ModalDictionaryTrayIcon(QObject):
         self._trayicon = None
         self._modal_active = False
         self._state_icons = {
-            "typing": QIcon(":resources/modal-inactive.svg"),
-            "meta": QIcon(":resources/modal-active.svg"),
+            "typing": QIcon(":/resources/modal-inactive.svg"),
+            "meta": QIcon(":/resources/modal-active.svg"),
         }
         self._state_changed.connect(self._set_modal_active)
 
@@ -88,7 +88,7 @@ class TrayIcon(QObject):
             "disabled",
             "enabled",
         ):
-            icon = QIcon(":resources/state-%s.svg" % state)
+            icon = QIcon(":/resources/state-%s.svg" % state)
             if hasattr(icon, "setIsMask"):
                 icon.setIsMask(True)
             self._state_icons[state] = icon

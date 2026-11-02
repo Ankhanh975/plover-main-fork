@@ -146,6 +146,22 @@ def test_unbound_edit_keys_are_reported(capture, machine):
     assert edits == ["BackSpace", "Delete"]
 
 
+def test_key_events_report_press_and_release_times(
+    capture, machine, monkeypatch, timers
+):
+    timestamps = iter((1.0, 1.25))
+    monkeypatch.setattr(
+        "plover.machine.keyboard.time.monotonic", lambda: next(timestamps)
+    )
+    events = []
+    machine.add_key_event_callback(lambda *event: events.append(event))
+
+    machine._key_down("a")
+    machine._key_up("a")
+
+    assert events == [("a", "down", 1.0), ("a", "up", 1.25)]
+
+
 def test_unfinished_stroke_1(capture, machine, strokes):
     machine.start_capture()
     send_input(capture, "+a +q -a")
