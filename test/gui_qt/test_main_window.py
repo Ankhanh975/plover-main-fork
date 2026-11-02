@@ -63,7 +63,13 @@ def test_main_window_home_and_dictionary_tabs():
         ui.machineGroupLayout,
         ui.stenoOptionsLayout,
     ):
-        assert layout.contentsMargins().left() == 16
+        margins = layout.contentsMargins()
+        assert (margins.left(), margins.top(), margins.right(), margins.bottom()) == (
+            16,
+            8,
+            12,
+            8,
+        )
     assert [
         ui.homeLayout.itemAt(index).widget()
         for index in range(ui.homeLayout.count() - 1)
@@ -77,6 +83,14 @@ def test_main_window_home_and_dictionary_tabs():
         ui.spacePlacementChoicesLayout,
     ):
         assert isinstance(layout, QHBoxLayout)
+    assert isinstance(ui.inputMethodRowLayout, QVBoxLayout)
+    assert ui.inputMethodRowLayout.spacing() == 2
+    assert ui.inputMethodRowLayout.itemAt(0).widget() is ui.inputMethodLabel
+    assert ui.inputMethodRowLayout.itemAt(1).widget() is ui.inputMethodChoices
+    assert isinstance(ui.spacePlacementRowLayout, QVBoxLayout)
+    assert ui.spacePlacementRowLayout.spacing() == 2
+    assert ui.spacePlacementRowLayout.itemAt(0).widget() is ui.spacePlacementLabel
+    assert ui.spacePlacementRowLayout.itemAt(1).widget() is ui.spacePlacementChoices
     for layout in (ui.inputMethodChoicesLayout, ui.spacePlacementChoicesLayout):
         assert layout.spacing() == 8
         assert layout.contentsMargins().left() == 0
@@ -94,12 +108,27 @@ def test_main_window_home_and_dictionary_tabs():
     ]
     assert ui.output_enable.parentWidget() is ui.outputGroup
     assert ui.output_disable.parentWidget() is ui.outputGroup
+    for radio in (
+        ui.output_enable,
+        ui.output_disable,
+        ui.input_method_keyboard,
+        ui.input_method_plover_hid,
+        ui.space_before_output,
+        ui.space_after_output,
+    ):
+        assert radio.sizePolicy().horizontalPolicy() == QSizePolicy.Policy.Maximum
     default_point_size = ui.input_method_keyboard.font().pointSize()
     assert ui.output_enable.font().pointSize() == default_point_size
     assert ui.output_disable.font().pointSize() == default_point_size
     window.resize(650, 450)
     window.show()
     app.processEvents()
+    for first, second, spacing in (
+        (ui.output_enable, ui.output_disable, 12),
+        (ui.input_method_keyboard, ui.input_method_plover_hid, 8),
+        (ui.space_before_output, ui.space_after_output, 8),
+    ):
+        assert second.geometry().left() - first.geometry().right() - 1 == spacing
     home_widgets = (
         ui.outputGroup,
         ui.machineGroup,

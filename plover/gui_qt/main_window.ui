@@ -74,8 +74,23 @@
            <property name="leftMargin">
             <number>16</number>
            </property>
+           <property name="topMargin">
+            <number>8</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>8</number>
+           </property>
            <item>
             <widget class="QRadioButton" name="output_enable">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -89,6 +104,12 @@
            </item>
            <item>
             <widget class="QRadioButton" name="output_disable">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -102,6 +123,22 @@
               <bool>true</bool>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="outputChoicesSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Policy::Expanding</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -118,11 +155,20 @@
            <property name="leftMargin">
             <number>16</number>
            </property>
+           <property name="topMargin">
+            <number>8</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>8</number>
+           </property>
            <item>
             <widget class="QWidget" name="inputMethodRow" native="true">
-             <layout class="QHBoxLayout" name="inputMethodRowLayout">
+             <layout class="QVBoxLayout" name="inputMethodRowLayout">
               <property name="spacing">
-               <number>8</number>
+               <number>2</number>
               </property>
               <property name="leftMargin">
                <number>0</number>
@@ -166,6 +212,12 @@
                  </property>
                  <item>
                   <widget class="QRadioButton" name="input_method_keyboard">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Keyboard</string>
                    </property>
@@ -173,10 +225,32 @@
                  </item>
                  <item>
                   <widget class="QRadioButton" name="input_method_plover_hid">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Plover HID</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="inputMethodChoicesSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Policy::Expanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </widget>
@@ -259,6 +333,15 @@
            <property name="leftMargin">
             <number>16</number>
            </property>
+           <property name="topMargin">
+            <number>8</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>8</number>
+           </property>
            <item>
             <widget class="QCheckBox" name="disable_multistroke_outlines">
              <property name="toolTip">
@@ -291,9 +374,9 @@
            </item>
            <item>
             <widget class="QWidget" name="spacePlacementRow" native="true">
-             <layout class="QHBoxLayout" name="spacePlacementRowLayout">
+             <layout class="QVBoxLayout" name="spacePlacementRowLayout">
               <property name="spacing">
-               <number>8</number>
+               <number>2</number>
               </property>
               <property name="leftMargin">
                <number>0</number>
@@ -337,6 +420,12 @@
                  </property>
                  <item>
                   <widget class="QRadioButton" name="space_before_output">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Before Output</string>
                    </property>
@@ -344,10 +433,32 @@
                  </item>
                  <item>
                   <widget class="QRadioButton" name="space_after_output">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>After Output</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="spacePlacementChoicesSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Policy::Expanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </widget>
