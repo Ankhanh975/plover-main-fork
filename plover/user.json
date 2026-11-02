@@ -1,6 +1,6 @@
 {
-"23-789": "{;}",
 "234-B": "{^}{#Down}{^}",
+"23-789": "{;}",
 "STPH": "{&}",
 "STPH*": "{plover:deleted}",
 "STPH-B": "{^}{#Down}{^}",
@@ -121,6 +121,7 @@
 "TKOBGS": "docs",
 "TKOBGS/-PLT": "document",
 "TKOG": "doing",
+"TKE/TPEU/TPHAOEUT": "definite",
 "TKE/PU/TEU": "deputy",
 "TKE/HRE/TE": "delete",
 "TKE/HREGS": "deletion",
@@ -357,6 +358,7 @@
 "PAR/HRA/-PLT": "parliament",
 "PART/SEU/PAEUT": "participate",
 "PO*R": "pore",
+"POFT": "post",
 "POR": "pour",
 "PEU/KWRA/TPHO": "piano",
 "PEUBG/T*UR": "picture",

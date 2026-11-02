@@ -116,10 +116,10 @@ class BuildUi(Command):
             mod_name, attr_name = hook.split(":")
             mod = importlib.import_module(mod_name)
             hook_fn = getattr(mod, attr_name)
-            with open(dst, "r") as fp:
+            with open(dst, "r", encoding="utf-8") as fp:
                 contents = fp.read()
             contents = hook_fn(contents)
-            with open(dst, "w") as fp:
+            with open(dst, "w", encoding="utf-8") as fp:
                 fp.write(contents)
 
     def _build_resources(self, src):
