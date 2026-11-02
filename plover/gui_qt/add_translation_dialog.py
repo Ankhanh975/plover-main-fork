@@ -18,6 +18,9 @@ class AddTranslationDialog(Tool, Ui_AddTranslationDialog):
     def __init__(self, engine, dictionary_path=None):
         super().__init__(engine)
         self.setupUi(self)
+        font = self.font()
+        font.setPointSizeF(font.pointSizeF() * 2)
+        self.setFont(font)
         self.add_translation.select_dictionary(dictionary_path)
         self.add_translation.mappingValid.connect(self.on_mapping_valid)
         self.on_mapping_valid(self.add_translation.mapping_is_valid)
