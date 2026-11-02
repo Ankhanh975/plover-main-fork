@@ -58,6 +58,12 @@ def test_main_window_home_and_dictionary_tabs():
     assert ui.space_after_output.text() == "After Output"
     assert isinstance(ui.homeLayout, QVBoxLayout)
     assert ui.homeLayout.spacing() == 6
+    for layout in (
+        ui.outputGroupLayout,
+        ui.machineGroupLayout,
+        ui.stenoOptionsLayout,
+    ):
+        assert layout.contentsMargins().left() == 16
     assert [
         ui.homeLayout.itemAt(index).widget()
         for index in range(ui.homeLayout.count() - 1)
@@ -88,6 +94,9 @@ def test_main_window_home_and_dictionary_tabs():
     ]
     assert ui.output_enable.parentWidget() is ui.outputGroup
     assert ui.output_disable.parentWidget() is ui.outputGroup
+    default_point_size = ui.input_method_keyboard.font().pointSize()
+    assert ui.output_enable.font().pointSize() == default_point_size
+    assert ui.output_disable.font().pointSize() == default_point_size
     window.resize(650, 450)
     window.show()
     app.processEvents()

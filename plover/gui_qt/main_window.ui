@@ -71,6 +71,9 @@
            <property name="spacing">
             <number>12</number>
            </property>
+           <property name="leftMargin">
+            <number>16</number>
+           </property>
            <item>
             <widget class="QRadioButton" name="output_enable">
              <property name="minimumSize">
@@ -78,11 +81,6 @@
                <width>0</width>
                <height>30</height>
               </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-              </font>
              </property>
              <property name="text">
               <string>Enabled</string>
@@ -96,11 +94,6 @@
                <width>0</width>
                <height>30</height>
               </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-              </font>
              </property>
              <property name="text">
               <string>Disabled</string>
@@ -121,6 +114,9 @@
           <layout class="QVBoxLayout" name="machineGroupLayout">
            <property name="spacing">
             <number>6</number>
+           </property>
+           <property name="leftMargin">
+            <number>16</number>
            </property>
            <item>
             <widget class="QWidget" name="inputMethodRow" native="true">
@@ -259,6 +255,9 @@
           <layout class="QVBoxLayout" name="stenoOptionsLayout">
            <property name="spacing">
             <number>4</number>
+           </property>
+           <property name="leftMargin">
+            <number>16</number>
            </property>
            <item>
             <widget class="QCheckBox" name="disable_multistroke_outlines">
