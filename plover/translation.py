@@ -200,6 +200,7 @@ class Translator:
 
     def __init__(self):
         self._undo_length = 0
+        self._disable_multistroke_outlines = False
         self._dictionary = None
         self.set_dictionary(StenoDictionaryCollection())
         self._listeners = set()
@@ -244,6 +245,10 @@ class Translator:
         """
         self._undo_length = n
         self._resize_translations()
+
+    def set_disable_multistroke_outlines(self, disable):
+        """Disable dictionary lookups that combine multiple strokes."""
+        self._disable_multistroke_outlines = disable
 
     def flush(self, extra_translations=None):
         """Process translations scheduled for undoing/doing.
@@ -309,6 +314,7 @@ class Translator:
 
         """
         max_len = self._dictionary.longest_key
+        match_max_len = 1 if self._disable_multistroke_outlines else max_len
         mapping = self._lookup_with_prefix(max_len, self._state.translations, [stroke])
         macro = _mapping_to_macro(mapping, stroke)
         if macro is not None:
@@ -316,13 +322,13 @@ class Translator:
             return
         t = (
             # No prefix lookups (note we avoid looking up [stroke] again).
-            self._find_longest_match(2, max_len, stroke)
+            self._find_longest_match(2, match_max_len, stroke)
             or
             # Return [stroke] result if mapped.
             (mapping is not None and Translation([stroke], mapping))
             or
             # No direct match, try with suffixes.
-            self._find_longest_match(1, max_len, stroke, system.SUFFIX_KEYS)
+            self._find_longest_match(1, match_max_len, stroke, system.SUFFIX_KEYS)
             or
             # Fallback to untranslate.
             Translation([stroke], None)
@@ -394,7 +400,7 @@ class Translator:
             if len(strokes) < min_len:
                 continue
             mapping = self._lookup_with_prefix(
-                max_len, translations[:i], strokes, suffixes
+                self._dictionary.longest_key, translations[:i], strokes, suffixes
             )
             if mapping is not None:
                 t = Translation(strokes, mapping)

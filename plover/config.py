@@ -440,6 +440,9 @@ class Config:
             ),
             boolean_option("start_attached", False, OUTPUT_CONFIG_SECTION),
             boolean_option("start_capitalized", False, OUTPUT_CONFIG_SECTION),
+            boolean_option(
+                "disable_multistroke_outlines", False, OUTPUT_CONFIG_SECTION
+            ),
             int_option(
                 "undo_levels",
                 DEFAULT_UNDO_LEVELS,

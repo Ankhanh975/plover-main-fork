@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QMenu,
 )
 
-from plover import _, log
+from plover import log
 from plover.oslayer import wmctrl
 from plover.oslayer.config import CONFIG_DIR, PLATFORM
 from plover.registry import registry
@@ -30,6 +30,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
 
     def __init__(self, engine, use_qt_notifications):
         super().__init__()
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
         self.setupUi(self)
         if hasattr(self, "setUnifiedTitleAndToolBarOnMac"):
             self.setUnifiedTitleAndToolBarOnMac(True)
@@ -122,9 +123,6 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
             toggle_action.toggled.connect(toolbar_action.setVisible)
             self._dialog_class[tool_plugin.name] = tool
         engine.signal_connect("output_changed", self.initialize_output_state)
-        # Machine.
-        for plugin in registry.list_plugins("machine"):
-            self.machine_type.addItem(_(plugin.name), plugin.name)
         engine.signal_connect("config_changed", self.on_config_changed)
         engine.signal_connect(
             "machine_state_changed",
@@ -151,11 +149,32 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
             self.configure()
         # Apply configuration settings.
         config = self._engine.config
+        self._update_home_settings(config)
+        self.input_method_keyboard.clicked.connect(
+            partial(self.update_machine_type, "Keyboard")
+        )
+        self.input_method_plover_hid.clicked.connect(
+            partial(self.update_machine_type, "Plover HID")
+        )
+        self.disable_multistroke_outlines.toggled.connect(
+            self.update_disable_multistroke_outlines
+        )
+        self.early_stroke_send.toggled.connect(
+            partial(self.update_machine_option, "early_stroke_send")
+        )
+        self.first_up_chord_send.toggled.connect(
+            partial(self.update_machine_option, "first_up_chord_send")
+        )
+        self.space_before_output.clicked.connect(
+            partial(self.update_space_placement, "Before Output")
+        )
+        self.space_after_output.clicked.connect(
+            partial(self.update_space_placement, "After Output")
+        )
 
         # Set the initial appearance based on the loaded configuration.
         appearance.update(config)
 
-        self._update_machine(config["machine_type"])
         self._configured = False
 
         # temporary ignoring start_minimized setting on macOS due to bug in
@@ -238,12 +257,33 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
             "hidden_toolbar_tools", json.dumps(list(sorted(hidden_toolbar_tools)))
         )
 
-    def _update_machine(self, machine_type):
-        self.machine_type.setCurrentIndex(self.machine_type.findData(machine_type))
+    def _update_home_settings(self, config):
+        machine_options = config["machine_specific_options"]
+        for option_name, widget in (
+            ("early_stroke_send", self.early_stroke_send),
+            ("first_up_chord_send", self.first_up_chord_send),
+        ):
+            was_blocked = widget.blockSignals(True)
+            widget.setChecked(machine_options.get(option_name, False))
+            widget.setEnabled(option_name in machine_options)
+            widget.blockSignals(was_blocked)
+
+        for widget, checked in (
+            (
+                self.disable_multistroke_outlines,
+                config["disable_multistroke_outlines"],
+            ),
+            (self.input_method_keyboard, config["machine_type"] == "Keyboard"),
+            (self.input_method_plover_hid, config["machine_type"] == "Plover HID"),
+            (self.space_before_output, config["space_placement"] == "Before Output"),
+            (self.space_after_output, config["space_placement"] == "After Output"),
+        ):
+            was_blocked = widget.blockSignals(True)
+            widget.setChecked(checked)
+            widget.blockSignals(was_blocked)
 
     def on_config_changed(self, config_update):
-        if "machine_type" in config_update:
-            self._update_machine(config_update["machine_type"])
+        self._update_home_settings(self._engine.config)
         if self._modal_state_hook_connected:
             self._engine.hook_disconnect("stroked", self._update_modal_dictionary_state)
         self._engine.hook_connect("stroked", self._update_modal_dictionary_state)
@@ -260,11 +300,27 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
             self._engine.dictionaries.dicts
         )
 
-    @Slot(int)
-    def update_machine_type(self, machine_index):
-        self._engine.config = {
-            "machine_type": self.machine_type.itemData(machine_index)
-        }
+    @Slot(str, bool)
+    def update_machine_type(self, machine_type, checked=True):
+        if checked:
+            self._engine.config = {"machine_type": machine_type}
+
+    @Slot(bool)
+    def update_disable_multistroke_outlines(self, enabled):
+        self._engine.config = {"disable_multistroke_outlines": enabled}
+
+    @Slot(str, bool)
+    def update_machine_option(self, option_name, enabled):
+        machine_options = dict(self._engine.config["machine_specific_options"])
+        if option_name not in machine_options:
+            return
+        machine_options[option_name] = enabled
+        self._engine.config = {"machine_specific_options": machine_options}
+
+    @Slot(str, bool)
+    def update_space_placement(self, placement, checked=True):
+        if checked:
+            self._engine.config = {"space_placement": placement}
 
     @Slot(bool)
     def initialize_output_state(self, enabled):

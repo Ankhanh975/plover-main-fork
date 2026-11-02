@@ -294,6 +294,9 @@ class StenoEngine:
         self._formatter.start_attached = config["start_attached"]
         self._formatter.start_capitalized = config["start_capitalized"]
         self._translator.set_min_undo_length(config["undo_levels"])
+        self._translator.set_disable_multistroke_outlines(
+            config["disable_multistroke_outlines"]
+        )
         self._keyboard_emulation.set_key_press_delay(config["time_between_key_presses"])
         # This only applies to UInput, because it emulates a physical keyboard and follows the layout set in software. Because there is no standard of defining it, the user has to do so manually if not using a QWERTY keyboard.
         if hasattr(self._keyboard_emulation, "_update_layout"):
@@ -464,9 +467,7 @@ class StenoEngine:
         self._same_thread_hook(self._on_stroked, steno_keys)
 
     def _machine_key_event_callback(self, key, action, timestamp):
-        self._same_thread_hook(
-            self._trigger_hook, "key_event", key, action, timestamp
-        )
+        self._same_thread_hook(self._trigger_hook, "key_event", key, action, timestamp)
 
     def _on_external_key(self, key):
         if self._is_running and key in ("BackSpace", "Delete"):

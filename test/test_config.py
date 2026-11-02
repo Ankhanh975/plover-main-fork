@@ -128,6 +128,7 @@ DEFAULTS = {
     "space_placement": "Before Output",
     "start_attached": False,
     "start_capitalized": False,
+    "disable_multistroke_outlines": False,
     "undo_levels": config.DEFAULT_UNDO_LEVELS,
     "log_file_name": expand_path("strokes.log"),
     "enable_stroke_logging": False,
@@ -170,6 +171,7 @@ CONFIG_TESTS = (
      space_placement = After Output
      start_attached = true
      start_capitalized = yes
+     disable_multistroke_outlines = true
      undo_levels = 42
      """,
         dict_replace(
@@ -178,6 +180,7 @@ CONFIG_TESTS = (
                 "space_placement": "After Output",
                 "start_attached": True,
                 "start_capitalized": True,
+                "disable_multistroke_outlines": True,
                 "undo_levels": 42,
             },
         ),
@@ -193,6 +196,7 @@ CONFIG_TESTS = (
      space_placement = Before Output
      start_attached = False
      start_capitalized = False
+     disable_multistroke_outlines = true
      undo_levels = 200
      """,
     ),

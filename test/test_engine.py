@@ -176,6 +176,26 @@ def test_engine_lifecycle(engine):
     engine._controller.stop.assert_called_once()
 
 
+def test_disable_multistroke_outlines_config(engine):
+    engine.load_config()
+    engine.start()
+    dictionary = StenoDictionary()
+    dictionary[("S",)] = "single stroke"
+    dictionary[("T",)] = "another single stroke"
+    dictionary[("S", "T")] = "multi-stroke outline"
+    engine.config = {"disable_multistroke_outlines": True}
+    engine._dictionaries.set_dicts([dictionary])
+
+    engine._translator.translate(Stroke.from_steno("S"))
+    engine._translator.translate(Stroke.from_steno("T"))
+
+    assert [
+        translation.english for translation in engine.translator_state.translations
+    ] == ["single stroke", "another single stroke"]
+    engine.quit()
+    engine.join()
+
+
 def test_machine_toggle_command_works_while_output_is_disabled(engine):
     engine.load_config()
     engine.start()
