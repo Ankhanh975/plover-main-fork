@@ -50,6 +50,8 @@ class StenotypeBase:
         self.command_subscribers = []
         # Subscribers notified when an unbound physical key is pressed.
         self.key_subscribers = []
+        # Subscribers notified for physical key press and release events.
+        self.key_event_subscribers = []
         self.state = STATE_STOPPED
 
     def set_keymap(self, keymap):
@@ -115,6 +117,13 @@ class StenotypeBase:
     def remove_key_callback(self, callback):
         self.key_subscribers.remove(callback)
 
+    def add_key_event_callback(self, callback):
+        """Subscribe to physical key press and release events."""
+        self.key_event_subscribers.append(callback)
+
+    def remove_key_event_callback(self, callback):
+        self.key_event_subscribers.remove(callback)
+
     def _notify_modifier(self, modifiers):
         for callback in list(self.modifier_subscribers):
             try:
@@ -142,6 +151,15 @@ class StenotypeBase:
                 import logging
 
                 logging.exception("key callback failed")
+
+    def _notify_key_event(self, key, action, timestamp):
+        for callback in list(self.key_event_subscribers):
+            try:
+                callback(key, action, timestamp)
+            except Exception:
+                import logging
+
+                logging.exception("key event callback failed")
 
     def remove_state_callback(self, callback):
         self.state_subscribers.remove(callback)

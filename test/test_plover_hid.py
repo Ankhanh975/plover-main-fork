@@ -90,6 +90,30 @@ def test_early_chord_send_after_quiet_period(hid_machine):
     assert strokes == [(machine.EARLY_STROKE_DELAY, {"S-"})]
 
 
+def test_key_events_report_hid_key_edges(hid_machine):
+    machine, clock = hid_machine
+    events = []
+    machine.add_key_event_callback(lambda *event: events.append(event))
+
+    run_reports(
+        machine,
+        clock,
+        [
+            (0.0, report_for_keys("S1-")),
+            (0.04, report_for_keys("S1-", "T-")),
+            (0.06, report_for_keys("S1-")),
+            (0.08, report_for_keys()),
+        ],
+    )
+
+    assert events == [
+        ("S1-", "down", 0.0),
+        ("T-", "down", 0.04),
+        ("T-", "up", 0.06),
+        ("S1-", "up", 0.08),
+    ]
+
+
 def test_custom_steno_keys_are_available_for_keymap_configuration(hid_machine):
     machine, clock = hid_machine
 

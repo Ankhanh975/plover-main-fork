@@ -369,7 +369,7 @@ msgid "Nothing to see here!"
 msgstr "這裡沒有東西！"
 
 #. Widget: “KeymapOption”.
-#: plover/gui_qt/config_window.py:173
+#: plover/gui_qt/config_window.py:173 plover/gui_qt/key_event_timeline.py:20
 msgid "Key"
 msgstr "按鍵"
 
@@ -977,6 +977,7 @@ msgstr "清除過濾器"
 
 #. Widget: “DictionaryEditor”, text.
 #: plover/gui_qt/dictionary_editor_ui.py:203
+#: plover/gui_qt/key_event_timeline.py:126
 msgid "Clear"
 msgstr "清除"
 
@@ -1474,6 +1475,38 @@ msgstr "尚未連接"
 msgid "Keyboard"
 msgstr "鍵盤"
 
+#: plover/gui_qt/key_event_timeline.py:19
+msgid "Elapsed time"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:21
+msgid "Edge"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:22
+#, fuzzy
+msgid "Held duration"
+msgstr "持續時間"
+
+#: plover/gui_qt/key_event_timeline.py:49
+#, fuzzy
+msgid "Down"
+msgstr "由上而下"
+
+#: plover/gui_qt/key_event_timeline.py:49
+msgid "Up"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:98
+msgid "Key Event Timeline"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:108
+msgid ""
+"Each row records a physical key edge. Time is elapsed from the first "
+"event. This tool is available with the Keyboard and Plover HID machines."
+msgstr ""
+
 #~ msgid "Scan"
 #~ msgstr "偵測"
 
@@ -1485,4 +1518,11 @@ msgstr "鍵盤"
 
 #~ msgid "Open dictionaries"
 #~ msgstr "開啟字典"
+
+#~ msgid ""
+#~ "Each row records a physical key "
+#~ "edge. Time is elapsed from the "
+#~ "first event. This tool is available "
+#~ "with the Keyboard machine."
+#~ msgstr ""
 

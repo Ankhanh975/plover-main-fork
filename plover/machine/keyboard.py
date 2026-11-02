@@ -5,6 +5,7 @@
 "For use with a computer keyboard (preferably NKRO) as a steno machine."
 
 import threading
+import time
 
 from plover import _, system
 from plover.machine.base import StenotypeBase
@@ -204,6 +205,7 @@ class Keyboard(StenotypeBase):
     def _key_down(self, key):
         """Called when a key is pressed."""
         assert key is not None
+        self._notify_key_event(key, "down", time.monotonic())
         if key == "caps_lock":
             self._notify_command("toggle")
             return
@@ -227,6 +229,7 @@ class Keyboard(StenotypeBase):
     def _key_up(self, key):
         """Called when a key is released."""
         assert key is not None
+        self._notify_key_event(key, "up", time.monotonic())
         if key == "caps_lock":
             return
         if key not in self._bindings:

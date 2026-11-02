@@ -226,6 +226,17 @@ class PloverHid(ThreadedStenotypeBase):
             [key for i, key in enumerate(STENO_KEY_CHART) if key_state >> (63 - i) & 1]
         )
 
+    def _notify_key_state_changes(self, previous: int, current: int) -> None:
+        changed = previous ^ current
+        if not changed:
+            return
+        timestamp = time.monotonic()
+        for i, key in enumerate(STENO_KEY_CHART):
+            mask = 1 << (63 - i)
+            if changed & mask:
+                action = "down" if current & mask else "up"
+                self._notify_key_event(key, action, timestamp)
+
     def _send_correction(self) -> None:
         self._notify(set(system.Stroke.UNDO_STROKE.steno_keys))
 
@@ -304,6 +315,7 @@ class PloverHid(ThreadedStenotypeBase):
                 log.error("invalid report")
                 continue
 
+            self._notify_key_state_changes(previous, current)
             press_started = time.time()
             if self._params["first_up_chord_send"]:
                 if key_state & ~current and not sent_first_up:

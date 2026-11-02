@@ -36,7 +36,7 @@ badge_icon = icon_from_app(application)
 # Where to put the icons
 icon_locations = {appname: (114, 244), "Applications": (527, 236)}
 
-background = "osx/dmg_resources/background.png"
+background = os.path.join(os.path.dirname(os.path.abspath(__file__)), "background.png")
 
 show_status_bar = False
 show_tab_view = False

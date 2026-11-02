@@ -373,7 +373,7 @@ msgid "Nothing to see here!"
 msgstr "Nulla da vedere qui!"
 
 #. Widget: “KeymapOption”.
-#: plover/gui_qt/config_window.py:173
+#: plover/gui_qt/config_window.py:173 plover/gui_qt/key_event_timeline.py:20
 msgid "Key"
 msgstr "Tasto"
 
@@ -1003,6 +1003,7 @@ msgstr "Cancella filtro"
 
 #. Widget: “DictionaryEditor”, text.
 #: plover/gui_qt/dictionary_editor_ui.py:203
+#: plover/gui_qt/key_event_timeline.py:126
 msgid "Clear"
 msgstr "Cancella"
 
@@ -1504,4 +1505,43 @@ msgstr "disconnessa"
 #: plover/machine/keyboard.py:14
 msgid "Keyboard"
 msgstr "Tastiera"
+
+#: plover/gui_qt/key_event_timeline.py:19
+msgid "Elapsed time"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:21
+msgid "Edge"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:22
+#, fuzzy
+msgid "Held duration"
+msgstr "Durata"
+
+#: plover/gui_qt/key_event_timeline.py:49
+#, fuzzy
+msgid "Down"
+msgstr "dall'alto in basso"
+
+#: plover/gui_qt/key_event_timeline.py:49
+msgid "Up"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:98
+msgid "Key Event Timeline"
+msgstr ""
+
+#: plover/gui_qt/key_event_timeline.py:108
+msgid ""
+"Each row records a physical key edge. Time is elapsed from the first "
+"event. This tool is available with the Keyboard and Plover HID machines."
+msgstr ""
+
+#~ msgid ""
+#~ "Each row records a physical key "
+#~ "edge. Time is elapsed from the "
+#~ "first event. This tool is available "
+#~ "with the Keyboard machine."
+#~ msgstr ""
 

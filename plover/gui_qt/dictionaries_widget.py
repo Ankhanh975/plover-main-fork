@@ -523,7 +523,7 @@ class DictionariesWidget(QGroupBox, Ui_DictionariesWidget):
         self._model = DictionariesModel(
             engine,
             {
-                name: QIcon(":resources/dictionary_%s.svg" % name)
+                name: QIcon(":/resources/dictionary_%s.svg" % name)
                 for name in "favorite loading error readonly normal".split()
             },
         )

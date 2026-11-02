@@ -11,6 +11,7 @@ class Engine(StenoEngine, QThread):
     # Signals.
     signal_stroked = Signal(object)
     signal_translated = Signal(object, object)
+    signal_key_event = Signal(str, str, float)
     signal_machine_state_changed = Signal(str, str)
     signal_output_changed = Signal(bool)
     signal_config_changed = Signal(object)

@@ -12,14 +12,21 @@
     "exit": {
         "-X": "{&}{^}",
         "STPH": "{&}{^}",
-        "#TPH": "{&}{^}"
+        "#TPH": "{&}{^}",
+
+        "SKWR": "{^ ^}",
+        "TP-PL": "{.}",
+        "KPA": "{:case:cap_first_word}",
+        "KW-BG": "{,}",
+        "R-R": "{^ ^}"
+
+
     },
     
 
     "dict": {
         "*": "=undo",
         "SP": "{^ ^}",
-        "KPA": "{-|}",
 
         "S": "{&s}{^}",
         "STK": "{&z}{^}",
@@ -111,7 +118,6 @@
         "WR-R": "{#Control_L(u)}",
         "H-R": "{#Control_L(h)}",
         "HR-R": "{#Control_L(l)}",
-        "R-R": "{#Control_L(r)}",
         "AR": "{#Control_L(a)}",
         "OR": "{#Control_L(o)}",
         "ER": "{#Control_L(e)}",
