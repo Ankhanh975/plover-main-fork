@@ -488,6 +488,15 @@ class ConfigWindow(QDialog, Ui_ConfigWindow, WindowStateMixin):
                         _("Capitalize the first word."),
                     ),
                     ConfigOption(
+                        _("Disable multi-stroke outlines:"),
+                        "disable_multistroke_outlines",
+                        BooleanOption,
+                        _(
+                            "Do not combine consecutive strokes to match "
+                            "multi-stroke dictionary entries."
+                        ),
+                    ),
+                    ConfigOption(
                         _("Space placement:"),
                         "space_placement",
                         partial(

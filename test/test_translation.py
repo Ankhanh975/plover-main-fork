@@ -354,6 +354,24 @@ def test_translator():
     assert out.get() == ""
 
 
+def test_disable_multistroke_outlines():
+    d = StenoDictionary()
+    d[("S",)] = "single stroke"
+    d[("T",)] = "another single stroke"
+    d[("S", "T")] = "multi-stroke outline"
+    t = Translator()
+    t.set_dictionary(StenoDictionaryCollection([d]))
+    t.set_disable_multistroke_outlines(True)
+
+    t.translate(stroke("S"))
+    t.translate(stroke("T"))
+
+    assert [translation.english for translation in t.get_state().translations] == [
+        "single stroke",
+        "another single stroke",
+    ]
+
+
 class TestState:
     def setup_method(self):
         self.a = Translation([stroke("S")], None)

@@ -19,6 +19,15 @@ class LookupDialog(Tool, Ui_LookupDialog):
     def __init__(self, engine):
         super().__init__(engine)
         self.setupUi(self)
+        font = self.font()
+        font.setPointSizeF(font.pointSizeF() * 2)
+        self.setFont(font)
+        text_font = self.suggestions.text_font
+        text_font.setPointSizeF(font.pointSizeF())
+        self.suggestions.text_font = text_font
+        strokes_font = self.suggestions.strokes_font
+        strokes_font.setPointSizeF(font.pointSizeF())
+        self.suggestions.strokes_font = strokes_font
         self.pattern.installEventFilter(self)
         self.suggestions.installEventFilter(self)
         self.pattern.setFocus()
