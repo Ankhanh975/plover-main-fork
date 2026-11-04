@@ -1,4 +1,5 @@
 {
+"#-S": "{#Tab}{#Return}",
 "STPH": "{&}",
 "STPH*": "{plover:deleted}",
 "STPH-B": "{^}{#Down}{^}",
@@ -61,6 +62,7 @@
 "SAEU/KAL": "cycle",
 "SAEUL": "sale",
 "SAEFRPB": "search",
+"SO/ROE": "sorrow",
 "SOFRB": "solve",
 "SOLD": "sold",
 "SOLD/*ER": "soldier",
@@ -72,6 +74,30 @@
 "SEUPL/P": "simple",
 "SEUPL/PHRE": "simple",
 "SEUPL/P-L": "simple",
+"STR*EPBG": "strength",
+
+"SHE/SR*EL": "shevell",
+
+"SEU/SOR": "scissor",
+
+"TKPWRA/WAUL": "gradual",
+
+"KOPL/PHAOUT/KAEUGS": "communication",
+
+"PHAOE/*UR": "measure",
+
+"HRAOEU/*UR": "leisure",
+
+"RE/SEU/PE": "recipe",
+
+"AU/TKOEU": "audio",
+
+"EUPB/KRED/KWRABL": "incredible",
+
+"EUPL/PO*BL": "impossible",
+
+"UPL/PWREL/KWRA": "umbrella",
+
 "SEUG/TPHA/TUR": "signature",
 "SEUGTS": "situation",
 "SER/SRAL": "several",
