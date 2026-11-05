@@ -234,5 +234,7 @@
     "R-N": "{#Super_L(4)}",
     "-FPTX": "{#Control_L(Shift_L(Tab))}",
     "-TN": "{#Super_L(Tab)}",
-    "-TX": "{#Control_L(Tab)}"
+    "-TX": "{#Control_L(Tab)}",
+    "EX": "{#Control_L(Page_Up)}",
+    "UX": "{#Control_L(Page_Down)}"
 }
