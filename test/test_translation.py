@@ -372,6 +372,32 @@ def test_disable_multistroke_outlines():
     ]
 
 
+def test_non_undoable_translations_are_not_part_of_multistroke_outlines():
+    d = StenoDictionary()
+    d[("-RB",)] = "{#Return}{#Shift_L(q)}{#Shift_L(semicolon)}{#Tab}"
+    d[("-FP",)] = "{#Return}{#Shift_L(a)}{#Shift_L(semicolon)}{#Tab}"
+    d[("-FP", "-RB")] = "{.}"
+    t = Translator()
+    t.set_dictionary(StenoDictionaryCollection([d]))
+    formatter = Formatter()
+    outputs = []
+
+    def format_and_record(undo, do, prev):
+        formatter.format(undo, do, prev)
+        outputs.append((undo, do))
+
+    t.add_listener(format_and_record)
+    for steno in ("-RB", "-FP", "-RB"):
+        t.translate(stroke(steno))
+
+    assert [tuple(translation.rtfcre for translation in do) for _, do in outputs] == [
+        (("-RB",),),
+        (("-FP",),),
+        (("-RB",),),
+    ]
+    assert all(not undo for undo, _ in outputs)
+
+
 class TestState:
     def setup_method(self):
         self.a = Translation([stroke("S")], None)

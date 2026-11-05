@@ -1,4 +1,5 @@
 {
+"#TP-PLT": "{;}",
 "#-S": "{#Tab}{#Return}",
 "STPH": "{&}",
 "STPH*": "{plover:deleted}",
@@ -14,6 +15,20 @@
 "SKP": "{*!}",
 "SKWR": "{PLOVER:RESUME}{^ ^}",
 "SKWRAOEUPBT/TEUBG": "gigantic",
+"TKE/SKEPBD": "descend",
+
+"TRE/PHEPBD/KWROUS": "tremendous",
+
+"KOE/KOE/KWRA": "cocoa",
+
+"PH*EUS": "myself",
+
+"PRE/SKWRAOUPBLG/KWREUS": "prejudice",
+
+"EU/SRAOUS": "issues",
+
+"EUPB/TER/KWRABGT": "interact",
+
 "SKWRAOEPB": "jean",
 "SKWR*UPL": "{^um}",
 "SKWRE/SUS": "Jesus",
@@ -34,7 +49,7 @@
 "SKW*GS": "{^~|'}",
 "SKW-BGS": "{^}...{-|}",
 "SKW-GS": "{~|'^}",
-"SP": "{^ ^}",
+"SP": "{#Space}",
 "SP*": "{#BackSpace}",
 "SPEBG/TPEUBG": "specific",
 "SPEBG/KWRAL": "special",
@@ -442,10 +457,6 @@
 "ROEZ": "rose",
 "RE/SREPBLG": "revenge",
 "RE/SEU/PE": "recipe",
-<<<<<<< HEAD
-"RE/SULT": "result",
-=======
->>>>>>> 7367d97424423f9329f1d3f791127235166d80bb
 "RE/KWRA/HREU/TEU": "reality",
 "RE/KWEUR": "require",
 "REU/SRAL": "rival",
@@ -584,10 +595,10 @@
 "UPL/PWREPL/KWRA": "umbrella",
 "UPL/PWREL/KWRA": "umbrell",
 "UG/-L": "ugly",
-"-FP": "\nA:\t",
+"-FP": "{#Return}{#Shift_L(a)}{#Shift_L(semicolon)}{#Tab}",
 "-FPLT": "{;}",
 "-RPBT": "aren't",
-"-RB": "\nQ:\t",
+"-RB": "{#Return}{#Shift_L(q)}{#Shift_L(semicolon)}{#Tab}",
 "-B/-G": "{plover:deleted}",
 "-BGS": "{^ness}",
 "-L": "{^ly}",

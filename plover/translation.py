@@ -384,6 +384,8 @@ class Translator:
         num_strokes = 1
         translation_count = 0
         for t in reversed(self._state.translations):
+            if not t.has_undo():
+                break
             num_strokes += len(t)
             if num_strokes > max_len:
                 break
