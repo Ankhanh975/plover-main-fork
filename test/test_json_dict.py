@@ -4,7 +4,7 @@
 
 """Unit tests for json.py."""
 
-from plover.dictionary.json_dict import JsonDictionary
+from plover.dictionary.json_dict import JsonDictionary, JsoncDictionary
 
 from plover_build_utils.testing import dictionary_test
 
@@ -84,5 +84,35 @@ class TestJsonDictionary:
     DICT_EXTENSION = "json"
     DICT_REGISTERED = True
     DICT_LOAD_TESTS = JSON_LOAD_TESTS
+    DICT_SAVE_TESTS = JSON_SAVE_TESTS
+    DICT_SAMPLE = b"{}"
+
+
+@dictionary_test
+class TestJsoncDictionary:
+    DICT_CLASS = JsoncDictionary
+    DICT_EXTENSION = "jsonc"
+    DICT_REGISTERED = True
+    DICT_LOAD_TESTS = (
+        lambda: json_load_test(
+            """
+            {
+                // Stroke comment.
+                "S": "a", /* Inline block comment. */
+                "T": "contains // comment markers",
+                "R": "contains /* comment markers */",
+            }
+            """,
+            """
+            "S": "a",
+            "T": "contains // comment markers",
+            "R": "contains /* comment markers */",
+            """,
+        ),
+        lambda: json_load_test(
+            '{"S": "a", /* unterminated comment',
+            ValueError,
+        ),
+    )
     DICT_SAVE_TESTS = JSON_SAVE_TESTS
     DICT_SAMPLE = b"{}"

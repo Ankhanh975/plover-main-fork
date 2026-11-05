@@ -31,6 +31,23 @@ translation for that outline in Plover's [translation language](translation_lang
 This format is used for dictionaries because it matches Plover's internal
 storage format almost exactly.
 
+### JSONC
+
+The **JSON with Comments** (JSONC) format uses the same dictionary structure as
+JSON and additionally allows `//` line comments, `/* block comments */`, and
+trailing commas. Use the `.jsonc` file extension:
+
+```jsonc
+{
+  // My custom outlines.
+  "-FP": "{#Return}{#Shift_L(a)}{#Shift_L(semicolon)}{#Tab}",
+  "-RB": "{#Return}{#Shift_L(q)}{#Shift_L(semicolon)}{#Tab}",
+}
+```
+
+Comment markers inside quoted strings are treated as ordinary text. If Plover
+saves a JSONC dictionary, it writes standard JSON and does not preserve comments.
+
 ### RTF/CRE
 
 Another common dictionary format, which is also supported by most proprietary
