@@ -196,6 +196,22 @@ def test_disable_multistroke_outlines_config(engine):
     engine.join()
 
 
+def test_load_config_resets_disable_multistroke_outlines(engine):
+    engine._config["disable_multistroke_outlines"] = True
+    engine._config.save()
+
+    assert engine.load_config()
+    assert not engine.config["disable_multistroke_outlines"]
+
+    engine._config.load()
+    assert not engine._config["disable_multistroke_outlines"]
+    engine.start()
+    assert not engine._translator._disable_multistroke_outlines
+
+    engine.quit()
+    engine.join()
+
+
 def test_machine_toggle_command_works_while_output_is_disabled(engine):
     engine.load_config()
     engine.start()

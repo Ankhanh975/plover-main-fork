@@ -698,6 +698,12 @@ class StenoEngine:
             )
             self._config.clear()
             return False
+        if self._config["disable_multistroke_outlines"]:
+            self._config["disable_multistroke_outlines"] = False
+            try:
+                self._config.save()
+            except Exception:
+                log.error("saving configuration failed", exc_info=True)
         return True
 
     def start(self) -> None:
