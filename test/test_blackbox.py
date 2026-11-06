@@ -803,6 +803,7 @@ class TestsBlackbox:
     def test_retro_toggle_capitalization(self):
         r"""
         'WORD': 'word',
+        'KPA': '{PLOVER:RESUME}{:case:cap_first_word}',
         'KPA/KPA': '{:retro_case:toggle_first_char}',
 
         WORD/KPA/KPA/KPA/KPA  ' word'

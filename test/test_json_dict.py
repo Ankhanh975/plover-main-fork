@@ -37,6 +37,29 @@ def json_save_test(entries, expected):
     return entries, expected.encode("utf-8")
 
 
+def test_jsonc_save_preserves_comments(tmp_path):
+    path = tmp_path / "dictionary.jsonc"
+    path.write_text(
+        """{
+  // Keep this note.
+  "S": "text with // not a comment",
+  "T": "value" /* Keep this too. */,
+}
+""",
+        encoding="utf-8",
+    )
+
+    dictionary = JsoncDictionary.load(str(path))
+    dictionary[("R",)] = "new entry"
+    dictionary.save()
+
+    saved = path.read_text(encoding="utf-8")
+    assert "// Keep this note." in saved
+    assert "/* Keep this too. */" in saved
+    assert "text with // not a comment" in saved
+    assert JsoncDictionary.load(str(path))[("R",)] == "new entry"
+
+
 JSON_SAVE_TESTS = (
     # Simple test.
     lambda: json_save_test(

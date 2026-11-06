@@ -45,8 +45,8 @@ trailing commas. Use the `.jsonc` file extension:
 }
 ```
 
-Comment markers inside quoted strings are treated as ordinary text. If Plover
-saves a JSONC dictionary, it writes standard JSON and does not preserve comments.
+Comment markers inside quoted strings are treated as ordinary text. Plover keeps
+comments when saving a JSONC dictionary, but moves them to the top of the file.
 
 ### RTF/CRE
 
