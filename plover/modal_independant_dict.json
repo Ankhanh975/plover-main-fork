@@ -1,0 +1,21 @@
+{
+    "#-X": "{#Control_L(1)}",
+    "SKWR-G": "{#Backspace}",
+    "SKWR-T": "{#Tab}",
+    "SKWR-S": "{#Escape}",
+    "SKWR-Z": "{#Return}",
+    "S-N": "{#Super_L(1)}",
+    "T-X": "{#Control_L(2)}",
+    "K-N": "{#Super_L(2)}",
+    "P-X": "{#Control_L(3)}",
+    "W-N": "{#Super_L(3)}",
+    "H-X": "{#Control_L(4)}",
+    "R-N": "{#Super_L(4)}",
+    "EX": "{#Control_L(Page_Up)}",
+    "UX": "{#Control_L(Page_Down)}",
+    "-FPTX": "{#Control_L(Shift_L(Tab))}",
+    "*N": "{#Super_L(w)}",
+    "EN": "{#Alt_L(Tab)}",
+    "-TN": "{#Super_L(Tab)}",
+    "-TX": "{#Control_L(Tab)}"
+}

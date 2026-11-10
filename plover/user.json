@@ -17,21 +17,13 @@
 "SKWRAOEUPBT/TEUBG": "gigantic",
 "TKE/SKEPBD": "descend",
 "SUP/P-L": "supply",
-
 "AOUPB/SRERS/-TS": "university",
-
 "TRE/PHEPBD/KWROUS": "tremendous",
-
 "KOE/KOE/KWRA": "cocoa",
-
 "PH*EUS": "myself",
-
 "PRE/SKWRAOUPBLG/KWREUS": "prejudice",
-
 "EU/SRAOUS": "issues",
-
 "EUPB/TER/KWRABGT": "interact",
-
 "SKWRAOEPB": "jean",
 "SKWR*UPL": "{^um}",
 "SKWRE/SUS": "Jesus",
@@ -454,6 +446,7 @@
 "H-F": "{PLOVER:SUSPEND}",
 "H-PB": "{^}-{^}",
 "RAOEL/HREU/TEU": "reality",
+"TKEPB/-TS": "density",
 "RAOEL/EUS": "realize",
 "RAOEL/-LT": "reality",
 "RAEL/EUS": "realize",
@@ -617,5 +610,29 @@
 "-L": "{^ly}",
 "-LT": "{^lity}",
 "-TS": "{^sity}",
-"-N": "being"
+"-N": "being",
+"TKE/PART/*UR": "departure",
+"TPRABGT/*UR": "fracture",
+"TPAOE/*UR": "feature",
+"TRAOE/*UR": "treasure",
+"TORT/*UR": "torture",
+"TEBGS/*UR": "texture",
+"KHROEZ/*UR": "closure",
+"K*UR": "cure",
+"PWHR/K*UR": "manicure",
+"PWHR/KUR": "maniure",
+"PHRAOE/*UR": "pleasure",
+"PHAT/*UR": "mature",
+"PHEUBGS/*UR": "mixture",
+"PRO/SEU/*UR": "procedure",
+"POFT/*UR": "posture",
+"P*UR": "pure",
+"PEUBGT/*UR": "picture",
+"HREUT/*ER/T*UR": "literature",
+"HREUT/*ER/TUR": "literature",
+"RUPT/*UR": "rupture",
+"AFRPB/TEBGT": "architect",
+"OB/SKUR": "obscure",
+"EUPL/PHUR": "immure",
+"EBGS/POEZ/*UR": "exposure"
 }
