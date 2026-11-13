@@ -14,11 +14,13 @@
 "H-X": "{#Control_L(4)}",
 "R-N": "{#Super_L(4)}",
 "*N": "{#Super_L(w)}",
+"*X": "{#Control_L(w)}",
 "EN": "{#Alt_L(Tab)}",
 "EX": "{#Control_L(Shift_L(Tab))}",
 "UN": "{#Alt_L(Shift_L(Tab))}",
 "UX": "{#Control_L(Tab)}",
 "-FPTX": "{#Control_L(Shift_L(Tab))}",
+"-PBX": "{#Control_L(n)}",
 "-TN": "{#Super_L(Tab)}",
-"-TX": "{#Control_L(Tab)}"
+"-TX": "{#Control_L(t)}"
 }
