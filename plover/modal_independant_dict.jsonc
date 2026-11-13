@@ -6,22 +6,16 @@
 "SKWR-S": "{#Escape}",
 "SKWR-Z": "{#Return}",
 "S-N": "{#Super_L(1)}",
-
 "T-X": "{#Control_L(2)}",
-
+"KHREUFT": "Christ",
 "K-N": "{#Super_L(2)}",
-
 "P-X": "{#Control_L(3)}",
 "W-N": "{#Super_L(3)}",
-"*N": "{#Super_L(w)}",
-
 "H-X": "{#Control_L(4)}",
-
 "R-N": "{#Super_L(4)}",
-
-"EX": "{#Control_L(Shift_L(Tab))}",
+"*N": "{#Super_L(w)}",
 "EN": "{#Alt_L(Tab)}",
-"UX": "{#Control_L(Tab)}",
+"EX": "{#Control_L(Shift_L(Tab))}",
 "UN": "{#Alt_L(Shift_L(Tab))}",
 "UX": "{#Control_L(Tab)}",
 "-FPTX": "{#Control_L(Shift_L(Tab))}",
