@@ -30,7 +30,6 @@ class MainWindow(QMainWindow, Ui_MainWindow, WindowStateMixin):
 
     def __init__(self, engine, use_qt_notifications):
         super().__init__()
-        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
         self.setupUi(self)
         if hasattr(self, "setUnifiedTitleAndToolBarOnMac"):
             self.setUnifiedTitleAndToolBarOnMac(True)
