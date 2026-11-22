@@ -825,6 +825,18 @@ class TestsBlackbox:
         WORD/KPA/KPA  " 'Word"
         """
 
+    def test_retro_toggle_capitalization_after_punctuation(self):
+        r"""
+        'WORD': 'word',
+        'KW-BG': '{,}',
+        'P-P': '{.}',
+        'T-P': '{;}',
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        :spaces_after
+        WORD/KW-BG/KPA/KPA/WORD/P-P/KPA/KPA/WORD/T-P/KPA/KPA  'Word, Word. word; '
+        """
+
     def test_retro_currency1(self):
         r"""
         'TPHAPB': 'notanumber',
