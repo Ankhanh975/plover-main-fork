@@ -15,6 +15,7 @@
         "#TPH": "{&}{^}",
 
         "SKWR": "{^ ^}",
+        "STP-PLT": "{;}",
         "TP-PL": "{.}",
         "KPA": "{:case:cap_first_word}",
         "KW-BG": "{,}",
