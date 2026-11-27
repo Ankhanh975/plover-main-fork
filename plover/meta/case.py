@@ -45,6 +45,10 @@ def meta_retro_case(ctx, case):
         action.text = last_word
     else:
         character = last_word[index]
-        changed = character.lower() if character.isupper() else character.upper()
-        action.text = last_word[:index] + changed + last_word[index + 1 :]
+        if character.isupper():
+            action.text = last_word.lower()
+        else:
+            action.text = (
+                last_word[:index] + character.upper() + last_word[index + 1 :]
+            )
     return action

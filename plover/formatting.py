@@ -896,8 +896,13 @@ def _finalize_action(action, ctx):
             last_word = ctx.last_action.word
         action.word = rightmost_word((last_word or "") + text)
     # Apply case.
-    case = ctx.last_action.next_case
-    if case is None and action.prev_attach and ctx.last_action.upper_carry:
+    case = None if action.prev_replace else ctx.last_action.next_case
+    if (
+        not action.prev_replace
+        and case is None
+        and action.prev_attach
+        and ctx.last_action.upper_carry
+    ):
         case = Case.UPPER_FIRST_WORD
     text = apply_case(text, case)
     if case == Case.UPPER_FIRST_WORD:

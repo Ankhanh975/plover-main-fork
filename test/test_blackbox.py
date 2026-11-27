@@ -837,6 +837,37 @@ class TestsBlackbox:
         WORD/KW-BG/KPA/KPA/WORD/P-P/KPA/KPA/WORD/T-P/KPA/KPA  'Word, Word. word; '
         """
 
+    def test_retro_toggle_uncapitalization_after_punctuation(self):
+        r"""
+        'WORD': 'WORD',
+        'KW-BG': '{,}',
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        :spaces_after
+        WORD/KW-BG/KPA/KPA  'word, '
+        """
+
+    def test_retro_toggle_uncapitalization_before_full_stop(self):
+        r"""
+        'WORD': 'WORD',
+        'P-P': '{.}',
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        :spaces_after
+        WORD/KPA/KPA/P-P  'word. '
+        """
+
+    def test_retro_toggle_uncapitalization_after_full_stop(self):
+        r"""
+        'WORD': 'WORD',
+        'TEFT': 'next',
+        'P-P': '{.}',
+        'KPA/KPA': '{:retro_case:toggle_first_char}',
+
+        :spaces_after
+        WORD/P-P/KPA/KPA/TEFT  'word. Next '
+        """
+
     def test_retro_currency1(self):
         r"""
         'TPHAPB': 'notanumber',
